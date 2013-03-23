@@ -14,3 +14,23 @@
 # You should have received a copy of the GNU General Public License along 
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 ### END LICENSE
+
+import os
+import sys
+
+from mako.template import Template
+from mako.lookup import TemplateLookup
+from mako import exceptions
+
+def serve_template(templatename, **kwargs):
+
+    interface_dir = '/home/samtayuk/Projects/lizardpanel/data/interface'
+    template_dir = os.path.join(str(interface_dir), 'default')
+    
+    _hplookup = TemplateLookup(directories=[template_dir])
+    
+    try:
+        template = _hplookup.get_template(templatename)
+        return template.render(**kwargs)
+    except:
+        return exceptions.html_error_template().render()
