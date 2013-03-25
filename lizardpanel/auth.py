@@ -20,23 +20,25 @@ import cherrypy
 
 from template import serve_template
 
+from Member import Member
+
 SESSION_KEY = '_cp_username'
+
+def get_current_member():
+    email = cherrypy.session.get(SESSION_KEY)
+
+    m = Member().get_member_by_email(email)
+    return m
 
 def check_credentials(username, password):
     """Verifies credentials for username and password.
     Returns None on success or a string describing the error on failure"""
-    # Adapt to your needs
-    if username in ('joe', 'steve') and password == 'secret':
-        return None
-    else:
-        return u"Incorrect username or password."
+    m = Member().get_member_by_email(username)
+    if not m == None:
+        if m.check_password(password):
+            return None
     
-    # An example implementation which uses an ORM could be:
-    # u = User.get(username)
-    # if u is None:
-    #     return u"Username %s is unknown to me." % username
-    # if u.password != md5.new(password).hexdigest():
-    #     return u"Incorrect password"
+    return u"Incorrect username or password."
 
 def check_auth(*args, **kwargs):
     """A tool that looks in config for 'auth.require'. If found and it
@@ -50,7 +52,7 @@ def check_auth(*args, **kwargs):
             for condition in conditions:
                 # A condition is just a callable that returns true or false
                 if not condition():
-                    raise cherrypy.HTTPRedirect("/auth/login")
+                    raise cherrypy.HTTPError("401 Unauthorized")
         else:
             raise cherrypy.HTTPRedirect("/auth/login")
     
@@ -78,8 +80,9 @@ def require(*conditions):
 
 def member_of(groupname):
     def check():
+        m = Member().get_member_by_email(cherrypy.request.login)
         # replace with actual check if <username> is in <groupname>
-        return cherrypy.request.login == 'joe' and groupname == 'admin'
+        return m.type == groupname
     return check
 
 def name_is(reqd_username):
@@ -118,18 +121,10 @@ class AuthController(object):
     def on_logout(self, username):
         """Called on logout"""
     
-    def get_loginform(self, username, msg="Enter login information", from_page="/"):
+    def get_loginform(self, username, msg=False, from_page="/"):
         username=escape(username, True)
         from_page=escape(from_page, True)
-        return serve_template(templatename="login.html")
-        #"""<html><body>
-        #    <form method="post" action="/auth/login">
-        #    <input type="hidden" name="from_page" value="%(from_page)s" />
-        #    %(msg)s<br />
-        #    Username: <input type="text" name="username" value="%(username)s" /><br />
-        #    Password: <input type="password" name="password" /><br />
-        #    <input type="submit" value="Log in" />
-        #</body></html>""" % locals()
+        return serve_template(templatename="login.html", error=msg)
     
     @cherrypy.expose
     def login(self, username=None, password=None, from_page="/"):

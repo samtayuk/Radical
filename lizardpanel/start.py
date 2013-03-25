@@ -23,6 +23,90 @@ from auth import AuthController, require, member_of, name_is
 
 from template import serve_template
 
+from MemberFactory import MemberFactory
+
+from Member import Member
+
+class MemberManager:
+    
+    # all methods in this controller (and subcontrollers) is
+    # open only to members of the admin group
+    
+    _cp_config = {
+        'auth.require': [member_of('admin')]
+    }
+    
+    @cherrypy.expose
+    def index(self):
+        members = MemberFactory().get_all_members()
+        return serve_template(templatename="member.html", title="LizzardPanel - Member Manager", members=members)
+
+    @cherrypy.expose
+    def add(self, first_name=None, last_name=None, email=None, password=None, password_comfirm=None, active=None, notes=None, m_type=None):
+        if first_name == None and last_name == None and email == None and password == None and password_comfirm == None:
+            return serve_template(templatename="edituser.html", title="LizzardPanel - Create New Member", pageTitle="Create New Member", postUrl="/member/add")
+        else:
+            if active == 'on':
+                active = True
+            else:
+                active = False
+
+            if not password == password_comfirm:
+                return serve_template(templatename="edituser.html", title="LizzardPanel - Create New Member", pageTitle="Create New Member", postUrl="/member/add", error="Error: Password Comfirm doesn't match the password.")
+
+            m = Member().create_member(email, password, first_name, last_name, notes, active, m_type)
+            if m == None:
+                return serve_template(templatename="edituser.html", title="LizzardPanel - Create New Member", pageTitle="Create New Member", error="Error has occured when trying to create a new member.")
+            else:
+                raise cherrypy.HTTPRedirect("/member")
+
+    @cherrypy.expose
+    def edit(self, mid = None, first_name=None, last_name=None, email=None, password=None, password_comfirm=None, active=None, notes=None, m_type=None):
+        mid = int(mid)
+        if first_name == None and last_name == None and email == None:
+            if mid == None:
+                raise cherrypy.HTTPRedirect("/member")
+            else:
+                m = Member().get_member_by_mid(mid)
+                if m == None:
+                    raise cherrypy.HTTPRedirect("/member")
+                else:
+                    return serve_template(templatename="edituser.html", title="LizzardPanel - Edit: %s %s" % (m.firstName, m.lastName), pageTitle="Edit: %s %s" % (m.firstName, m.lastName), postUrl="/member/edit/%i" % (mid), firstName=m.firstName, lastName=m.lastName, email=m.email, notes=m.notes, active=m.active, mType=m.type, edit=True, member=m)
+        else:
+            m = Member().get_member_by_mid(mid)
+
+            if active == 'on':
+                active = True
+            else:
+                active = False
+
+            if not password == password_comfirm:
+                return serve_template(templatename="edituser.html", title="LizzardPanel - Edit: %s %s" % (m.firstName, m.lastName), pageTitle="Edit: %s %s" % (m.firstName, m.lastName), postUrl="/member/edit/%i" % (mid), firstName=first_name, lastName=last_name, email=email, notes=notes, active=active, mType=m_type, edit=True, error="Error: Password Comfirm doesn't match the password.", member=m)
+
+            m.change_first_name(first_name)
+            m.change_last_name(last_name)
+            m.change_email(email)
+            m.change_notes(notes)
+            m.change_active(active)
+            m.change_type(m_type)
+            print "Type: " + m_type
+            print "Type: " + str(active)
+
+            m.save_changes()
+
+            if not password == None and not password == '':
+                print "WTF: " + str(password)
+                m.change_password(password)
+            
+            raise cherrypy.HTTPRedirect("/member")
+
+    @cherrypy.expose
+    def delete(self, mid, comfirm=None):
+        if comfirm == 'True':
+            MemberFactory().delete_member(mid)
+        raise cherrypy.HTTPRedirect("/member")
+
+
 class RestrictedArea:
     
     # all methods in this controller (and subcontrollers) is
@@ -47,27 +131,18 @@ class Root:
     auth = AuthController()
     
     restricted = RestrictedArea()
+    member = MemberManager()
     
     @cherrypy.expose
     @require()
     def index(self):
-        return """Index"""
-    
-    @cherrypy.expose
-    def open(self):
-        return """This page is open to everyone"""
-    
-    @cherrypy.expose
-    @require(name_is("joe"))
-    def only_for_joe(self):
-        return """Hello Joe - this page is available to you only"""
+        return serve_template(templatename="index.html", title="LizzardPanel")
 
-    # This is only available if the user name is joe _and_ he's in group admin
-    @cherrypy.expose
-    @require(name_is("joe"))
-    @require(member_of("admin"))   # equivalent: @require(name_is("joe"), member_of("admin"))
-    def only_for_joe_admin(self):
-        return """Hello Joe Admin - this page is available to you only"""
+def error_page_404(status, message, traceback, version):
+    return serve_template(templatename="404.html", title="LizzardPanel")
+
+def error_page_401(status, message, traceback, version):
+    return serve_template(templatename="401.html", title="LizzardPanel")
 
 
 if __name__ == '__main__':
@@ -83,4 +158,5 @@ if __name__ == '__main__':
             },
         }
 
+    cherrypy.config.update({'error_page.404': error_page_404, 'error_page.401': error_page_401})
     cherrypy.quickstart(Root(), '/', config=conf)

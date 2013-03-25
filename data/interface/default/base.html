@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>${title}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <script src="/bootstrap/js/jquery.js"></script>
+    <script src="/bootstrap/js/bootstrap.js"></script>
+    <script src="/bootstrap/js/bootstrapSwitch.js"></script>
+
+    <!-- Le styles -->
+    <link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+    </style>
+    <link href="/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="/bootstrap/css/bootstrapSwitch.css" rel="stylesheet">
+    <link rel="stylesheet" href="/bootstrap/css/font-awesome.css">
+    <!--[if IE 7]>
+      <link rel="stylesheet" href="/bootstrap/css/font-awesome-ie7.min.css">
+    <![endif]-->
+
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="/bootstrap/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/bootstrap/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/bootstrap/ico/apple-touch-icon-114-precomposed.png">
+      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/bootstrap/ico/apple-touch-icon-72-precomposed.png">
+                    <link rel="apple-touch-icon-precomposed" href="/bootstrap/ico/apple-touch-icon-57-precomposed.png">
+                                   <link rel="shortcut icon" href="/bootstrap/ico/favicon.png">
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="/">LizardPanel</a>
+          <div class="nav-collapse collapse">
+            ${next.nav()}
+            <ul class="nav pull-right">
+              <li>
+                <a href="#body" id="gototop" rel="tooltip" title="Back to Top"><i class="icon-arrow-up icon-white"></i></a>
+              </li>
+              <li>
+                <div class="btn-group">
+                  <a class="btn btn-inverse dropdown-toggle " data-toggle="dropdown" href="#">
+                    <img src="${currentMember.get_gravatar(25)}" alt="me" class="img-rounded">
+                  </a>
+                  <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel">
+                    <li class="nav-header">${currentMember.firstName} ${currentMember.lastName}</li>
+                    <li>
+                      <a tabindex="-1" href="/">
+                        <i class="icon-edit "></i>&nbsp;My Account
+                      </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                      <a tabindex="-1" href="/auth/logout">
+                        <i class="icon-signout"></i>&nbsp;Sign Out
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container" id="body">
+        ${next.body()}
+
+        <div class="clearfix"></div>
+
+      <hr>
+
+      <footer>
+        <div class="pull-left">
+            Copyright &copy; 2013 Samuel J. Taylor. Released Under <a href="http://www.gnu.org/licenses/gpl.html" target="_blank">GPLv3</a>.
+        </div>
+        <div class="pull-right" style="text-align: right;">
+            Powered by <a href="http://www.bgpanel.net/" target="_blank">LizardPanel</a>
+        </div>
+      </footer>
+    </div> <!-- /container -->
+  </body>
+</html>
+
+<%def name="nav()">
+
+<ul class="nav">
+% for navName, navOpt in navItems.iteritems():
+    <li class="
+% if 'selected' in navOpt:
+active
+% endif
+"><a href="${navOpt['url']}">
+% if 'icon' in navOpt:
+<i class="icon-large ${navOpt['icon']}"></i>
+% endif
+${navName}</a></li>
+% endfor 
+</ul>
+</%def>

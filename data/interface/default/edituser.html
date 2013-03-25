@@ -1,0 +1,110 @@
+## -*- coding: utf-8 -*-
+<%inherit file="base.html"/>
+
+<%def name="body()">
+    <h1>${pageTitle}</h1>
+    <hr>
+    % if error:
+            <div class="alert alert-block alert-error fade in">
+                  <button type="button" class="close" data-dismiss="alert">&times;</button>
+                  <p>${error}</p>
+            </div>
+    % endif
+  <form class="span9" method="post" action="${postUrl}">
+    <div class=" well span9 row">
+        <div class="span3">
+            <!-- Text input-->
+            <label>First Name</label>
+            <input id="first_name" name="first_name" type="text" placeholder="First Name" class="span3" 
+            % if firstName:
+            value="${firstName}"
+            % endif 
+            required="">
+
+            <!-- Text input-->
+            <label>Last Name</label>
+            <input id="last_name" name="last_name" type="text" placeholder="Last Name" class="span3" 
+            % if lastName:
+            value="${lastName}"
+            % endif
+            required="">
+
+
+            <!-- Text input-->
+            <label>Email</label>
+            <input id="email" name="email" type="text" placeholder="Email Address" class="span3" 
+            % if email:
+            value="${email}"
+            % endif
+            required="">
+
+
+            <!-- Password input-->
+            <label>Password</label>
+            <input id="password" name="password" type="password" placeholder="Password" class="span3" 
+            % if not edit:
+            required=""
+            % endif
+            >
+
+            <!-- Password input-->
+            <label>Password Comfirm</label>
+            <input id="password_comfirm" name="password_comfirm" type="password" placeholder="Password Comfirm" class="span3" 
+            % if not edit:
+            required=""
+            % endif
+            >
+
+            <!-- Select Basic -->
+              <label>Type</label>
+                <select id="m_type" name="m_type" class="span3">
+                  <option 
+                  % if not mType == 'admin':
+                    selected
+                  % endif
+                  value="user">
+                  Standard User
+                  </option>
+                  <option
+                  % if mType == 'admin':
+                    selected
+                  % endif
+                   value="admin">
+                  Administrator
+                  </option>
+                </select>
+  
+
+            <label>Status</label>
+            <div class="switch" data-on-label="Active" data-off-label="Suspend" data-on="success" data-off="danger">
+                <input name="active" type="checkbox" 
+                % if not active == False:
+                checked
+                % endif
+                >
+            </div>
+
+        </div>
+        % if member:
+            <img src="${member.get_gravatar(120)}" alt="me" class="pull-right img-rounded">
+        % endif
+        <!-- Textarea -->
+        <div class="span5">
+          <label>Notes</label>
+          <textarea  name="notes" id="notes" class="input-xlarge span5" rows="11">
+% if notes:
+${notes}
+% endif
+</textarea>
+
+        </div>
+        <div class="clearfix"></div>
+        <hr>
+        <div class="controls pull-right">
+        <a href="/member"class="btn">Cancel</a>
+        <button class="btn btn-primary" type="submit">Save</button>
+        </div>
+    </div>
+</form>
+
+</%def>
