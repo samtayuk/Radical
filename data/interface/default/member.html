@@ -13,7 +13,7 @@ $(document).ready(function(){
 
 </script>
 
-    <h1>Member Manager</h1>
+    <h1>Manage Members</h1>
     <hr>
     <ul class="nav nav-pills">
       <li><a class="btn-info" href="#addMember" data-toggle="modal">Create New Member</a></li>
@@ -54,8 +54,8 @@ $(document).ready(function(){
                     </td>
                     <td>
                         <div class="btn-group">
-                          <a href="/member/edit?mid=${member.mid}" class="btn"><i class="icon-edit"></i></a>
-                          <a href="#comfirmDeleteMember" role="button" class="memberDelete btn" data-member="${member.firstName} ${member.lastName} (${member.email})"  data-mid="${member.mid}" data-toggle="modal"><i class="icon-trash"></i></a>
+                          <a href="/member/edit?mid=${member.mid}" class="btn btn-primary"><i class="icon-edit"></i></a>
+                          <a href="#comfirmDeleteMember" role="button" class="memberDelete btn btn-danger" data-member="${member.firstName} ${member.lastName} (${member.email})"  data-mid="${member.mid}" data-toggle="modal"><i class="icon-trash"></i></a>
                         </div>
                     </td>
                 </tr>
