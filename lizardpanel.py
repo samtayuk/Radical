@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License along 
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 ### END LICENSE
-
+import os
 import cherrypy
 
 from lizardpanel.handlers.RootHandler import RootHandler
@@ -26,11 +26,11 @@ if __name__ == '__main__':
     conf = {
             '/interface':{
                 'tools.staticdir.on': True,
-                'tools.staticdir.dir': "/home/samtayuk/Projects/lizardpanel/data/interface"
+                'tools.staticdir.dir': os.path.join(os.path.abspath(__file__), 'data', 'interface')
             },
             '/bootstrap':{
                 'tools.staticdir.on': True,
-                'tools.staticdir.dir': "/home/samtayuk/Projects/lizardpanel/data/bootstrap"
+                'tools.staticdir.dir': os.path.join(os.path.abspath(__file__), 'data', 'bootstrap')
             },
         }
 

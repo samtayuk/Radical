@@ -29,7 +29,7 @@ import auth
 
 def serve_template(templatename, **kwargs):
 
-    interface_dir = '/home/samtayuk/Projects/lizardpanel/data/interface'
+    interface_dir = os.path.join(os.path.abspath(__file__), 'data', 'interface')
     template_dir = os.path.join(str(interface_dir), 'default')
     
     _hplookup = TemplateLookup(directories=[template_dir])
