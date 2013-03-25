@@ -37,7 +37,8 @@ def serve_template(templatename, **kwargs):
     nav = {'Members': {'url':'/member','icon':'icon-user', 'required_type': 'admin'},
            'Home': {'url':'/','icon':'icon-home', 'required_type': 'user'},
            'Groups': {'url':'/group','icon':'icon-group', 'required_type': 'user'},
-           'Game Servers': {'url':'/server','icon':'icon-play-circle', 'required_type': 'user'},}
+           'Game Servers': {'url':'/server','icon':'icon-play-circle', 'required_type': 'user'},
+           'Boxes': {'url':'/box','icon':'icon-laptop', 'required_type': 'admin'},}
 
     currentPath = urlparse(cherrypy.url()).path
     if currentPath.endswith('/'):

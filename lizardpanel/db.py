@@ -21,5 +21,5 @@ _connection = None
 def get_connection():
     global _connection
     if not _connection:
-        _connection = MySQLdb.connect(host="localhost", user="root",passwd="",db="panel")
+        _connection = MySQLdb.connect(host="localhost", user="root",passwd="topone",db="panel")
     return _connection

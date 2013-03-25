@@ -14,7 +14,7 @@ $(document).ready(function(){
     <h1>Member Manager</h1>
     <hr>
     <ul class="nav nav-pills">
-      <li><a class="btn-info" href="/member/add">Create New Member</a></li>
+      <li><a class="btn-info" href="#addMember" data-toggle="modal">Create New Member</a></li>
     </ul>
     <div class="well">
     <table class="table zebra-striped table-hover">
@@ -78,6 +78,95 @@ $(document).ready(function(){
     <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
     <a href="#" id="deleteMemberButton" class="btn btn-danger"><i class="icon-trash"></i> Delete</a>
   </div>
+</div>
+
+
+<div id="addMember" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width: 850px;margin-left: -400px;">
+<form method="post" action="/member/add" style="margin: 0px">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Create New Member</h3>
+  </div>
+  <div class="modal-body">
+      
+    <div class="span8 row">
+        <div class="span3">
+            <!-- Text input-->
+            <label>First Name</label>
+            <input id="first_name" name="first_name" type="text" placeholder="First Name" class="span3" 
+            % if firstName:
+            value="${firstName}"
+            % endif 
+            required="">
+
+            <!-- Text input-->
+            <label>Last Name</label>
+            <input id="last_name" name="last_name" type="text" placeholder="Last Name" class="span3" 
+            % if lastName:
+            value="${lastName}"
+            % endif
+            required="">
+
+
+            <!-- Text input-->
+            <label>Email</label>
+            <input id="email" name="email" type="text" placeholder="Email Address" class="span3" 
+            % if email:
+            value="${email}"
+            % endif
+            required="">
+
+
+            <!-- Password input-->
+            <label>Password</label>
+            <input id="password" name="password" type="password" placeholder="Password" class="span3" required="">
+
+            <!-- Password input-->
+            <label>Password Comfirm</label>
+            <input id="password_comfirm" name="password_comfirm" type="password" placeholder="Password Comfirm" class="span3" required="" >
+
+            <!-- Select Basic -->
+              <label>Type</label>
+                <select id="m_type" name="m_type" class="span3">
+                  <option 
+                  % if not mType == 'admin':
+                    selected
+                  % endif
+                  value="user">
+                  Standard User
+                  </option>
+                  <option
+                  % if mType == 'admin':
+                    selected
+                  % endif
+                   value="admin">
+                  Administrator
+                  </option>
+                </select>
+  
+
+            
+        </div>
+        <!-- Textarea -->
+        <div class="span4">
+          <label>Status</label>
+            <div class="switch" data-on-label="Active" data-on="success" data-off="danger">
+                <input name="active" type="checkbox" checked>
+            </div>
+
+
+          <label>Notes</label>
+          <textarea  name="notes" id="notes" class="input-xlarge span4" rows="11"></textarea>
+
+        </div>
+        <div class="clearfix"></div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+    <button href="#" id="deleteMemberButton" class="btn btn-primary"><i class="icon-save"></i> Save</button>
+  </div>
+  </form>
 </div>
 
 </%def>
