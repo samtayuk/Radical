@@ -31,5 +31,5 @@ class BoxManagerHandler:
     
     @cherrypy.expose
     def index(self):
-        return serve_template(templatename="box.html", title="LizzardPanel")
+        return serve_template(templatename="box.html", title="Radical")
 

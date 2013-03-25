@@ -31,4 +31,4 @@ class ProfileHandler:
     
     @cherrypy.expose
     def index(self):
-        return serve_template(templatename="profile.html", title="LizzardPanel")
+        return serve_template(templatename="profile.html", title="Radical")

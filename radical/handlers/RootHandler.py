@@ -57,20 +57,4 @@ class RootHandler:
     @cherrypy.expose
     @require()
     def index(self):
-        return serve_template(templatename="index.html", title="LizzardPanel")
-
-if __name__ == '__main__':
-
-    conf = {
-            '/interface':{
-                'tools.staticdir.on': True,
-                'tools.staticdir.dir': "/home/samtayuk/Projects/lizardpanel/data/interface"
-            },
-            '/bootstrap':{
-                'tools.staticdir.on': True,
-                'tools.staticdir.dir': "/home/samtayuk/Projects/lizardpanel/data/bootstrap"
-            },
-        }
-
-    cherrypy.config.update({'error_page.404': error_page_404, 'error_page.401': error_page_401})
-    cherrypy.quickstart(Root(), '/', config=conf)
+        return serve_template(templatename="index.html", title="Radical")

@@ -35,7 +35,7 @@ class MemberManagerHandler:
     @cherrypy.expose
     def index(self):
         members = MemberFactory().get_all_members()
-        return serve_template(templatename="member.html", title="LizzardPanel - Member Manager", members=members)
+        return serve_template(templatename="member.html", title="Radical - Member Manager", members=members)
 
     @cherrypy.expose
     def add(self, first_name=None, last_name=None, email=None, password=None, password_comfirm=None, active=None, notes=None, m_type=None):
@@ -48,11 +48,11 @@ class MemberManagerHandler:
                 active = False
 
             if not password == password_comfirm:
-                return serve_template(templatename="edituser.html", title="LizzardPanel - Create New Member", pageTitle="Create New Member", postUrl="/member/add", error="Error: Password Comfirm doesn't match the password.")
+                return serve_template(templatename="edituser.html", title="Radical - Create New Member", pageTitle="Create New Member", postUrl="/member/add", error="Error: Password Comfirm doesn't match the password.")
 
             m = Member().create_member(email, password, first_name, last_name, notes, active, m_type)
             if m == None:
-                return serve_template(templatename="edituser.html", title="LizzardPanel - Create New Member", pageTitle="Create New Member", error="Error has occured when trying to create a new member.")
+                return serve_template(templatename="edituser.html", title="Radical - Create New Member", pageTitle="Create New Member", error="Error has occured when trying to create a new member.")
             else:
                 raise cherrypy.HTTPRedirect("/member")
 
@@ -67,7 +67,7 @@ class MemberManagerHandler:
                 if m == None:
                     raise cherrypy.HTTPRedirect("/member")
                 else:
-                    return serve_template(templatename="edituser.html", title="LizzardPanel - Edit: %s %s" % (m.firstName, m.lastName), pageTitle="Edit: %s %s" % (m.firstName, m.lastName), postUrl="/member/edit/%i" % (mid), firstName=m.firstName, lastName=m.lastName, email=m.email, notes=m.notes, active=m.active, mType=m.type, edit=True, member=m)
+                    return serve_template(templatename="edituser.html", title="Radical - Edit: %s %s" % (m.firstName, m.lastName), pageTitle="Edit: %s %s" % (m.firstName, m.lastName), postUrl="/member/edit/%i" % (mid), firstName=m.firstName, lastName=m.lastName, email=m.email, notes=m.notes, active=m.active, mType=m.type, edit=True, member=m)
         else:
             m = Member().get_member_by_mid(mid)
 
@@ -77,7 +77,7 @@ class MemberManagerHandler:
                 active = False
 
             if not password == password_comfirm:
-                return serve_template(templatename="edituser.html", title="LizzardPanel - Edit: %s %s" % (m.firstName, m.lastName), pageTitle="Edit: %s %s" % (m.firstName, m.lastName), postUrl="/member/edit/%i" % (mid), firstName=first_name, lastName=last_name, email=email, notes=notes, active=active, mType=m_type, edit=True, error="Error: Password Comfirm doesn't match the password.", member=m)
+                return serve_template(templatename="edituser.html", title="Radical - Edit: %s %s" % (m.firstName, m.lastName), pageTitle="Edit: %s %s" % (m.firstName, m.lastName), postUrl="/member/edit/%i" % (mid), firstName=first_name, lastName=last_name, email=email, notes=notes, active=active, mType=m_type, edit=True, error="Error: Password Comfirm doesn't match the password.", member=m)
 
             m.change_first_name(first_name)
             m.change_last_name(last_name)

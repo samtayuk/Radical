@@ -18,7 +18,7 @@
 from radical.helpers.template import serve_template
 
 def error_page_404(status, message, traceback, version):
-    return serve_template(templatename="404.html", title="LizzardPanel")
+    return serve_template(templatename="404.html", title="Radical")
 
 def error_page_401(status, message, traceback, version):
-    return serve_template(templatename="401.html", title="LizzardPanel")
+    return serve_template(templatename="401.html", title="Radical")
