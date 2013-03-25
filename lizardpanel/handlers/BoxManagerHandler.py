@@ -31,5 +31,5 @@ class BoxManagerHandler:
     
     @cherrypy.expose
     def index(self):
-        return """This is the admin only area."""
+        return serve_template(templatename="box.html", title="LizzardPanel")
 

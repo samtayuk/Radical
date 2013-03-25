@@ -1,0 +1,56 @@
+## -*- coding: utf-8 -*-
+<%inherit file="base.html"/>
+
+<%def name="body()">
+    <h1>Manage Boxes</h1>
+    <hr>
+    <ul class="nav nav-pills">
+      <li><a class="btn-info" href="#addMember" data-toggle="modal">Create New Member</a></li>
+    </ul>
+    <div class="well">
+    <table class="table zebra-striped table-hover">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            % for member in members:
+                <tr>
+                    <td>${member.mid}</td>
+                    <td>${member.firstName}</td>
+                    <td>${member.lastName}</td>
+                    <td>${member.email}</td>
+                    <td>
+                    % if member.type == 'admin':
+                        <span class="label label-info">Administrator</span>
+                    % else:
+                        <span class="label">Standard User</span>
+                    % endif
+                    </td>
+                    <td>
+                    % if member.active:
+                        <span class="label label-success">Active</span>
+                    % else:
+                        <span class="label label-danger">Suspended</span>
+                    % endif
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                          <a href="/member/edit?mid=${member.mid}" class="btn"><i class="icon-edit"></i></a>
+                          <a href="#comfirmDeleteMember" role="button" class="memberDelete btn" data-member="${member.firstName} ${member.lastName} (${member.email})"  data-mid="${member.mid}" data-toggle="modal"><i class="icon-trash"></i></a>
+                        </div>
+                    </td>
+                </tr>
+            % endfor
+        </tbody>
+        </table>
+    </div>
+
+</%def>

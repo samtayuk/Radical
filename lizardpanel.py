@@ -26,11 +26,11 @@ if __name__ == '__main__':
     conf = {
             '/interface':{
                 'tools.staticdir.on': True,
-                'tools.staticdir.dir': os.path.join(os.path.abspath(__file__), 'data', 'interface')
+                'tools.staticdir.dir': os.path.join(os.path.dirname(os.path.realpath(__file__)), 'data', 'interface')
             },
             '/bootstrap':{
                 'tools.staticdir.on': True,
-                'tools.staticdir.dir': os.path.join(os.path.abspath(__file__), 'data', 'bootstrap')
+                'tools.staticdir.dir': os.path.join(os.path.dirname(os.path.realpath(__file__)), 'data', 'bootstrap')
             },
         }
 

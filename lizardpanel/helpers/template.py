@@ -25,13 +25,15 @@ from mako.template import Template
 from mako.lookup import TemplateLookup
 from mako import exceptions
 
-import auth
+import lizardpanel.auth
 
 def serve_template(templatename, **kwargs):
 
-    interface_dir = os.path.join(os.path.abspath(__file__), 'data', 'interface')
+    interface_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..', 'data', 'interface')
     template_dir = os.path.join(str(interface_dir), 'default')
     
+    print template_dir
+
     _hplookup = TemplateLookup(directories=[template_dir])
 
     nav = {'Members': {'url':'/member','icon':'icon-user', 'required_type': 'admin'},
@@ -46,7 +48,7 @@ def serve_template(templatename, **kwargs):
 
     genNav = {}
 
-    currentMember = auth.get_current_member()
+    currentMember = lizardpanel.auth.get_current_member()
 
     for navName, navOpt in nav.iteritems():
         if not navOpt['required_type'] == 'admin' or currentMember.type == navOpt['required_type']:
