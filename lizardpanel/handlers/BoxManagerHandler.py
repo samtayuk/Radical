@@ -18,7 +18,7 @@
 import cherrypy
 
 from lizardpanel.auth import AuthController, require, member_of, name_is
-from lizardpanel.template import serve_template
+from lizardpanel.helpers.template import serve_template
 
 class BoxManagerHandler:
     

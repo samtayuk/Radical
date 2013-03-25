@@ -14,21 +14,3 @@
 # You should have received a copy of the GNU General Public License along 
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 ### END LICENSE
-
-import cherrypy
-
-from lizardpanel.auth import AuthController, require, member_of, name_is
-from lizardpanel.helpers.template import serve_template
-
-class ProfileHandler:
-    
-    # all methods in this controller (and subcontrollers) is
-    # open only to members of the admin group
-    
-    _cp_config = {
-        'auth.require': []
-    }
-    
-    @cherrypy.expose
-    def index(self):
-        return serve_template(templatename="profile.html", title="LizzardPanel")

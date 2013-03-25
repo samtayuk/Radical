@@ -15,7 +15,7 @@
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 ### END LICENSE
 
-from lizardpanel.template import serve_template
+from lizardpanel.helpers.template import serve_template
 
 def error_page_404(status, message, traceback, version):
     return serve_template(templatename="404.html", title="LizzardPanel")
