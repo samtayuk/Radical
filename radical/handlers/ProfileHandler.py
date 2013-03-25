@@ -15,10 +15,20 @@
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 ### END LICENSE
 
-from lizardpanel.helpers.template import serve_template
+import cherrypy
 
-def error_page_404(status, message, traceback, version):
-    return serve_template(templatename="404.html", title="LizzardPanel")
+from radical.auth import AuthController, require, member_of, name_is
+from radical.helpers.template import serve_template
 
-def error_page_401(status, message, traceback, version):
-    return serve_template(templatename="401.html", title="LizzardPanel")
+class ProfileHandler:
+    
+    # all methods in this controller (and subcontrollers) is
+    # open only to members of the admin group
+    
+    _cp_config = {
+        'auth.require': []
+    }
+    
+    @cherrypy.expose
+    def index(self):
+        return serve_template(templatename="profile.html", title="LizzardPanel")

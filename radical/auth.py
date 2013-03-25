@@ -18,7 +18,7 @@
 from cgi import escape
 import cherrypy
 
-from lizardpanel.helpers.template import serve_template
+from radical.helpers.template import serve_template
 
 from Member import Member
 

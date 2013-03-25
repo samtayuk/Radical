@@ -1,4 +1,3 @@
-#!/usr/bin/python
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 # This file is part of LizardPanel
 ### BEGIN LICENSE
@@ -15,24 +14,11 @@
 # You should have received a copy of the GNU General Public License along 
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 ### END LICENSE
-import os
-import cherrypy
 
-from lizardpanel.handlers.RootHandler import RootHandler
-from lizardpanel.handlers import ErrorHandlers
+from radical.helpers.template import serve_template
 
-if __name__ == '__main__':
+def error_page_404(status, message, traceback, version):
+    return serve_template(templatename="404.html", title="LizzardPanel")
 
-    conf = {
-            '/interface':{
-                'tools.staticdir.on': True,
-                'tools.staticdir.dir': os.path.join(os.path.dirname(os.path.realpath(__file__)), 'data', 'interface')
-            },
-            '/bootstrap':{
-                'tools.staticdir.on': True,
-                'tools.staticdir.dir': os.path.join(os.path.dirname(os.path.realpath(__file__)), 'data', 'bootstrap')
-            },
-        }
-
-    cherrypy.config.update({'error_page.404': ErrorHandlers.error_page_404, 'error_page.401': ErrorHandlers.error_page_401})
-    cherrypy.quickstart(RootHandler(), '/', config=conf)
+def error_page_401(status, message, traceback, version):
+    return serve_template(templatename="401.html", title="LizzardPanel")

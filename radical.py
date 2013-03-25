@@ -1,3 +1,4 @@
+#!/usr/bin/python
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
 # This file is part of LizardPanel
 ### BEGIN LICENSE
@@ -14,21 +15,24 @@
 # You should have received a copy of the GNU General Public License along 
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 ### END LICENSE
-
+import os
 import cherrypy
 
-from lizardpanel.auth import AuthController, require, member_of, name_is
-from lizardpanel.helpers.template import serve_template
+from radical.handlers.RootHandler import RootHandler
+from radical.handlers import ErrorHandlers
 
-class ProfileHandler:
-    
-    # all methods in this controller (and subcontrollers) is
-    # open only to members of the admin group
-    
-    _cp_config = {
-        'auth.require': []
-    }
-    
-    @cherrypy.expose
-    def index(self):
-        return serve_template(templatename="profile.html", title="LizzardPanel")
+if __name__ == '__main__':
+
+    conf = {
+            '/interface':{
+                'tools.staticdir.on': True,
+                'tools.staticdir.dir': os.path.join(os.path.dirname(os.path.realpath(__file__)), 'data', 'interface')
+            },
+            '/bootstrap':{
+                'tools.staticdir.on': True,
+                'tools.staticdir.dir': os.path.join(os.path.dirname(os.path.realpath(__file__)), 'data', 'bootstrap')
+            },
+        }
+
+    cherrypy.config.update({'error_page.404': ErrorHandlers.error_page_404, 'error_page.401': ErrorHandlers.error_page_401})
+    cherrypy.quickstart(RootHandler(), '/', config=conf)

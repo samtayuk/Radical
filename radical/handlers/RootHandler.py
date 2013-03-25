@@ -19,8 +19,8 @@ import os
 import sys
 
 import cherrypy
-from lizardpanel.auth import AuthController, require, member_of, name_is
-from lizardpanel.helpers.template import serve_template
+from radical.auth import AuthController, require, member_of, name_is
+from radical.helpers.template import serve_template
 
 from MemberManagerHandler import MemberManagerHandler
 from ProfileHandler import ProfileHandler

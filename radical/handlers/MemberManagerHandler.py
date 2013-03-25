@@ -17,11 +17,11 @@
 
 import cherrypy
 
-from lizardpanel.auth import AuthController, require, member_of, name_is
-from lizardpanel.helpers.template import serve_template
+from radical.auth import AuthController, require, member_of, name_is
+from radical.helpers.template import serve_template
 
-from lizardpanel.MemberFactory import MemberFactory
-from lizardpanel.Member import Member
+from radical.MemberFactory import MemberFactory
+from radical.Member import Member
 
 class MemberManagerHandler:
     

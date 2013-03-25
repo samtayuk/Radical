@@ -25,7 +25,7 @@ from mako.template import Template
 from mako.lookup import TemplateLookup
 from mako import exceptions
 
-import lizardpanel.auth
+import radical.auth
 
 def serve_template(templatename, **kwargs):
 
@@ -48,7 +48,7 @@ def serve_template(templatename, **kwargs):
 
     genNav = {}
 
-    currentMember = lizardpanel.auth.get_current_member()
+    currentMember = radical.auth.get_current_member()
 
     for navName, navOpt in nav.iteritems():
         if not navOpt['required_type'] == 'admin' or currentMember.type == navOpt['required_type']:
