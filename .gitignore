@@ -33,3 +33,8 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject
+
+# ignore vim swp files and gedit temp files
+*.swp
+*.*~
+.vim
