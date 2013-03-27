@@ -1,4 +1,4 @@
 Radical
 ===========
 
-Game Control Panel written in Python 
+Radical is a open source game server control panel.  
