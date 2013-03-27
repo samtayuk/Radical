@@ -18,6 +18,7 @@
 import os
 import sys
 from urlparse import urlparse
+from collections import OrderedDict
 
 import cherrypy
 
@@ -36,17 +37,20 @@ def serve_template(templatename, **kwargs):
 
     _hplookup = TemplateLookup(directories=[template_dir])
 
-    nav = {'Members': {'url':'/member','icon':'icon-user', 'required_type': 'admin'},
-           'Home': {'url':'/','icon':'icon-home', 'required_type': 'user'},
+    nav = OrderedDict({'Home': {'url':'/','icon':'icon-home', 'required_type': 'user'},
+           'Members': {'url':'/member','icon':'icon-user', 'required_type': 'admin'},
            'Groups': {'url':'/group','icon':'icon-group', 'required_type': 'user'},
            'Game Servers': {'url':'/server','icon':'icon-play-circle', 'required_type': 'user'},
-           'Boxes': {'url':'/box','icon':'icon-laptop', 'required_type': 'admin'},}
+           'Boxes': {'url':'/box','icon':'icon-laptop', 'required_type': 'admin'},
+           'Settings': {'url':'/settings','icon':'icon-cog', 'required_type': 'admin'},})
+
+    print nav
 
     currentPath = urlparse(cherrypy.url()).path
     if currentPath.endswith('/'):
         currentPath = currentPath[:-1]
 
-    genNav = {}
+    genNav = OrderedDict()
 
     currentMember = radical.auth.get_current_member()
 

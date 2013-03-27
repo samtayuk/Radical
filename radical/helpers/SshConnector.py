@@ -15,12 +15,16 @@
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 ### END LICENSE
 
-import MySQLdb
+import paramiko
 
-_connection = None
-_connectionTime = None
-def get_connection():
-    global _connection
-    if not _connection:
-        _connection = MySQLdb.connect(host="localhost", user="root",passwd="topone",db="panel")
-    return _connection
+class SshConnector:
+    def __init__(self, ip, user, password, port):
+        self.ssh = paramiko.SSHClient()
+        self.ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        self.ssh.connect(ip, username=user, password=password, timeout=10)
+        
+    def exec_command(self, command):
+        return self.ssh.exec_command(command)
+
+    def close(self):
+        self.ssh.close()

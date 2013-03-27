@@ -25,6 +25,7 @@ from radical.helpers.template import serve_template
 from MemberManagerHandler import MemberManagerHandler
 from ProfileHandler import ProfileHandler
 from BoxManagerHandler import BoxManagerHandler
+from GroupManagerHandler import GroupManagerHandler
 
 class RestrictedArea:
     
@@ -49,10 +50,10 @@ class RootHandler:
     
     auth = AuthController()
     
-    restricted = RestrictedArea()
     member = MemberManagerHandler()
     box = BoxManagerHandler()
     profile = ProfileHandler()
+    group = GroupManagerHandler()
     
     @cherrypy.expose
     @require()

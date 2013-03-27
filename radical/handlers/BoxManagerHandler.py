@@ -20,6 +20,8 @@ import cherrypy
 from radical.auth import AuthController, require, member_of, name_is
 from radical.helpers.template import serve_template
 
+from radical.BoxFactory import BoxFactory
+
 class BoxManagerHandler:
     
     # all methods in this controller (and subcontrollers) is
@@ -31,5 +33,14 @@ class BoxManagerHandler:
     
     @cherrypy.expose
     def index(self):
-        return serve_template(templatename="box.html", title="Radical")
+        boxes = BoxFactory().get_all_boxes()
+        return serve_template(templatename="box.html", title="Radical", boxes=boxes)
+
+    @cherrypy.expose
+    def add(self, name=None, ip=None, ssh_user=None, ssh_password=None, ssh_port=None, notes=None):
+        if name == None and ip == None and ssh_user == None and ssh_password == None and ssh_port == None and notes == None:
+            return serve_template(templatename="editbox.html", title="Radical", pageTitle="Add Box")
+        else:
+            b = BoxFactory().create_new_box(name, ip, ssh_user, ssh_password, ssh_port, notes)
+            raise cherrypy.HTTPRedirect("/box")
 

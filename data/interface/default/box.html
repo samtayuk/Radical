@@ -4,6 +4,82 @@
 <%def name="body()">
     <h1>Manage Boxes</h1>
     <hr>
+    <ul class="nav nav-pills">
+      <li><a class="btn-info" href="/box/add">Add New Box</a></li>
+    </ul>
+    <div class="well">
+    <table class="table table-condensed">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>IP Address</th>
+                <th>Status</th>
+                <th>OS</th>
+                <th>System Load</th>
+                <th>Memory</th>
+                <th>Disk</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            % for box in boxes:
+                <tr
+                % if box.status == 'offline':
+                    class="error"
+                % endif
+                >
+                    <td>${box.bid}</td>
+                    <td>${box.name}</td>
+                    <td>${box.ip}</td>
+                    % if box.status == 'online':
+                    <td><span class="label label-success">Online</span></td>
+                    % elif box.status == 'pending':
+                    <td><span class="label label-warning">Pending</span></td>
+                    % else:
+                    <td><span class="label label-important">Offline</span></td>
+                    % endif
+                    <td>${box.os}</td>
+                    <td><span class="badge
+                    % if box.loadAvg <= (box.cpuNumberCore - 0.30) or box.cpuNumberCore == 0:
+                        badge-success
+                    % elif box.loadAvg <= box.cpuNumberCore:
+                        badge-warning
+                    % else:
+                        badge-important
+                    % endif
+                    ">${"%0.2f" % box.loadAvg}</span></td>
+                    <td><span class="badge
+                    % if box.percentMemory < 65:
+                        badge-success
+                    % elif box.percentMemory < 85:
+                        badge-warning
+                    % else:
+                        badge-important
+                    % endif
+                    ">${int(box.percentMemory)}&#37;</span></td>
+                    <td><span class="badge
+                    % if box.percentDisk < 65:
+                        badge-success
+                    % elif box.percentDisk < 85:
+                        badge-warning
+                    % else:
+                        badge-important
+                    % endif
+                    ">${int(box.percentDisk)}&#37;</span></td>
+
+                    <td>
+                        <div class="btn-group">
+                          <a href="/member/edit?" class="btn btn-primary"><i class="icon-search"></i></a>
+                          <a href="/member/edit?" class="btn btn-primary"><i class="icon-edit"></i></a>
+                          <a href="#comfirmDeleteMember" role="button" class="memberDelete btn btn-danger" data-toggle="modal"><i class="icon-trash"></i></a>
+                        </div>
+                    </td>
+                </tr>
+            % endfor
+        </tbody>
+        </table>
+    </div>
     
 
 </%def>

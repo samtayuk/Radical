@@ -4,12 +4,11 @@
 <%def name="body()">
     <script>
 $(document).ready(function(){
-   $(".memberDelete").click(function(){ 
+    $(".memberDelete").click(function(){ 
       $("#deleteMemberButton").attr("href", "/member/delete?comfirm=True&mid="+$(this).data('mid'));
       $("#deleteMemberName").html($(this).data('member'));
     });
 });
-
 
 </script>
 
@@ -84,7 +83,7 @@ $(document).ready(function(){
 
 
 <div id="addMember" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width: 850px;">
-<form method="post" action="/member/add" style="margin: 0px">
+<form id="addMemberForm" method="post" action="/member/add" style="margin: 0px">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
     <h3 id="myModalLabel">Create New Member</h3>
@@ -94,29 +93,35 @@ $(document).ready(function(){
     <div class="span8 row">
         <div class="span3">
             <!-- Text input-->
+            <div class="control-group">
             <label>First Name</label>
             <input id="first_name" name="first_name" type="text" placeholder="First Name" class="span3" 
             % if firstName:
             value="${firstName}"
             % endif 
             required="">
+            </div>
 
             <!-- Text input-->
+            <div class="control-group">
             <label>Last Name</label>
             <input id="last_name" name="last_name" type="text" placeholder="Last Name" class="span3" 
             % if lastName:
             value="${lastName}"
             % endif
             required="">
+            </div>
 
 
             <!-- Text input-->
+            <div class="control-group">
             <label>Email</label>
             <input id="email" name="email" type="text" placeholder="Email Address" class="span3" 
             % if email:
             value="${email}"
             % endif
             required="">
+            </div>
 
 
             <!-- Password input-->
@@ -170,5 +175,7 @@ $(document).ready(function(){
   </div>
   </form>
 </div>
+
+<script src="/bootstrap/js/jquery.validate.js"></script>
 
 </%def>

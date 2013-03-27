@@ -1,0 +1,79 @@
+## -*- coding: utf-8 -*-
+<%inherit file="base.html"/>
+
+<%def name="body()">
+    <h1>${pageTitle}</h1>
+    <hr>
+    % if error:
+            <div class="alert alert-block alert-error fade in">
+                  <button type="button" class="close" data-dismiss="alert">&times;</button>
+                  <p>${error}</p>
+            </div>
+    % endif
+  <form class="span9" method="post" action="">
+    <div class=" well span9 row">
+        <div class="span3">
+            <!-- Text input-->
+            <label>Name</label>
+            <input id="name" name="name" type="text" placeholder="Name" class="span3" 
+            % if firstName:
+            value="${firstName}"
+            % endif 
+            required="">
+
+            <!-- Text input-->
+            <label>IP Address</label>
+            <input id="ip" name="ip" type="text" placeholder="IP Address" class="span3" 
+            % if lastName:
+            value="${lastName}"
+            % endif
+            required="">
+
+
+            <!-- Text input-->
+            <label>SSH User</label>
+            <input id="ssh_user" name="ssh_user" type="text" placeholder="SSH User" class="span3" 
+            % if email:
+            value="${email}"
+            % endif
+            required="">
+
+
+            <!-- Password input-->
+            <label>SSH Password</label>
+            <input id="ssh_password" name="ssh_password" type="password" placeholder="SSH Password" class="span3" 
+            % if not edit:
+            required=""
+            % endif
+            >
+
+             <!-- Text input-->
+            <label>SSH Port</label>
+            <input id="ssh_port" name="ssh_port" type="text" placeholder="SSH Port" class="span3" 
+            % if email:
+            value="${email}"
+            % endif
+            required="">
+
+
+        </div>
+        <!-- Textarea -->
+        <div class="span5">
+          <label>Notes</label>
+          <textarea  name="notes" id="notes" class="input-xlarge span5" rows="11">
+% if notes:
+${notes}
+% endif
+</textarea>
+
+        </div>
+        <div class="clearfix"></div>
+        <hr>
+        <div class="controls pull-right">
+        <a href="/member"class="btn">Cancel</a>
+        <button class="btn btn-primary" type="submit">Save</button>
+        </div>
+    </div>
+</form>
+
+</%def>

@@ -15,12 +15,20 @@
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 ### END LICENSE
 
-import MySQLdb
+import cherrypy
 
-_connection = None
-_connectionTime = None
-def get_connection():
-    global _connection
-    if not _connection:
-        _connection = MySQLdb.connect(host="localhost", user="root",passwd="topone",db="panel")
-    return _connection
+from radical.auth import AuthController, require, member_of, name_is
+from radical.helpers.template import serve_template
+
+class GroupManagerHandler:
+    
+    # all methods in this controller (and subcontrollers) is
+    # open only to members of the admin group
+    
+    _cp_config = {
+        'auth.require': [member_of('admin')]
+    }
+    
+    @cherrypy.expose
+    def index(self):
+        return serve_template(templatename="group.html", title="Radical")

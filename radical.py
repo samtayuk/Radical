@@ -21,6 +21,8 @@ import cherrypy
 from radical.handlers.RootHandler import RootHandler
 from radical.handlers import ErrorHandlers
 
+from radical import scheduler
+
 if __name__ == '__main__':
 
     conf = {
@@ -35,4 +37,7 @@ if __name__ == '__main__':
         }
 
     cherrypy.config.update({'error_page.404': ErrorHandlers.error_page_404, 'error_page.401': ErrorHandlers.error_page_401})
+    
+    scheduler.start_scheduler()
+
     cherrypy.quickstart(RootHandler(), '/', config=conf)

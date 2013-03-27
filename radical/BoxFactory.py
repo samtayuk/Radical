@@ -15,7 +15,8 @@
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 ### END LICENSE
 
-import db
+from radical.helpers import db
+from radical.Box import Box
 
 class BoxFactory :
     '''(NULL)'''
@@ -25,13 +26,24 @@ class BoxFactory :
         self.cur = self.con.cursor()
 
     def create_new_box(self, name, ip, sshUser, sshPassword, sshPort, notes):
-        # returns 
-        pass
-    
-    def get_boxes(self):
-        # returns 
-        pass
+        self.cur.execute("""INSERT INTO `box` (`bid`, `name`, `ip`, `ssh_user`, `ssh_password`, `ssh_port`, `notes`, `ssh_salt`) 
+                                       VALUES (NULL, %s, %s, %s, %s, %s, %s, '');""",
+                                              (name, ip, sshUser, sshPassword, sshPort, notes))
+        self.con.commit()
+
+        b = self.get_box_by_bid(self.cur.lastrowid)
+        b.add_new_stats('pending')
+
+        return b
+
+    def get_all_boxes(self):
+        self.cur.execute("SELECT `bid` FROM `box`;")
+        rows = self.cur.fetchall()
+
+        boxes = []
+        for row in rows:
+            boxes.append(self.get_box_by_bid(row[0]))
+        return boxes
     
     def get_box_by_bid(self, bid):
-        # returns
-        pass
+        return Box().get_box_by_bid(bid)
