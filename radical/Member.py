@@ -129,7 +129,7 @@ class Member :
 
         # construct the url
         gravatar_url = "http://www.gravatar.com/avatar/" + hashlib.md5(self.email.lower()).hexdigest() + "?"
-        gravatar_url += urllib.urlencode({'s':str(size)})
+        gravatar_url += urllib.urlencode({'s':str(size), 'd':'retro'})
         return gravatar_url
 
 

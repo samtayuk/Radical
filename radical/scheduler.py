@@ -15,12 +15,16 @@
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 ### END LICENSE
 
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
 from libs.apscheduler.scheduler import Scheduler
 
+from radical.database import Box
 from radical.helpers.SshConnector import SshConnector
 from radical.BoxFactory import BoxFactory
 
-def get_box_status(box):
+def get_box_status(session, box):
     
     i = 0
     while True:
@@ -29,7 +33,7 @@ def get_box_status(box):
             ssh = SshConnector(box.ip, box.sshUser, box.sshPassword, box.sshPort)
         except:
             if i >= 3:
-                box.add_new_stats('offline')
+                box.add_new_stats(session, 'offline')
                 return False
         else:
             break
@@ -58,19 +62,26 @@ def get_box_status(box):
 
     ssh.close()
 
-    box.add_new_stats('online' ,results['os'], results['kernel'], results['uptime'], results['loadAvg'], results['usedMemory'], results['totalMemory'], results['usedDisk'], results['totalDisk'], results['cpuModel'], results['cpuNumberCore'])
+    box.add_new_stats(session, 'online' ,results['os'], results['kernel'], results['uptime'], results['loadAvg'], results['usedMemory'], results['totalMemory'], results['usedDisk'], results['totalDisk'], results['cpuModel'], results['cpuNumberCore'])
     return True
 
 def get_boxes_status():
     print 'Started Check'
-    boxes = BoxFactory().get_all_boxes()
+    engine = create_engine('sqlite:///twiseless.db', echo=True)
+    Session = sessionmaker(bind=engine)
+    session = Session()
+
+    boxes = session.query(Box).all()
 
     for box in boxes:
         print box.name
-        get_box_status(box)
+        get_box_status(session, box)
+
+    session.commit()
 
 scheduler = None
 def start_scheduler():
+    get_boxes_status()
     scheduler = Scheduler()
     scheduler.add_interval_job(get_boxes_status, seconds=30)
     scheduler.start()

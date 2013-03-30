@@ -37,36 +37,35 @@ def serve_template(templatename, **kwargs):
 
     _hplookup = TemplateLookup(directories=[template_dir])
 
-    nav = OrderedDict({'Home': {'url':'/','icon':'icon-home', 'required_type': 'user'},
+    nav = {'Home': {'url':'/','icon':'icon-home', 'required_type': 'user'},
            'Members': {'url':'/member','icon':'icon-user', 'required_type': 'admin'},
            'Groups': {'url':'/group','icon':'icon-group', 'required_type': 'user'},
            'Game Servers': {'url':'/server','icon':'icon-play-circle', 'required_type': 'user'},
            'Boxes': {'url':'/box','icon':'icon-laptop', 'required_type': 'admin'},
-           'Settings': {'url':'/settings','icon':'icon-cog', 'required_type': 'admin'},})
-
-    print nav
+           'Settings': {'url':'/settings','icon':'icon-cog', 'required_type': 'admin'},}
 
     currentPath = urlparse(cherrypy.url()).path
     if currentPath.endswith('/'):
         currentPath = currentPath[:-1]
 
-    genNav = OrderedDict()
+    genNav = {}
 
     currentMember = radical.auth.get_current_member()
 
     for navName, navOpt in nav.iteritems():
-        if not navOpt['required_type'] == 'admin' or currentMember.type == navOpt['required_type']:
-            genNav[navName] = {'url': navOpt['url']}
+        if not currentMember == None:
+            if not navOpt['required_type'] == 'admin' or currentMember.type == navOpt['required_type']:
+                genNav[navName] = {'url': navOpt['url']}
 
-            if 'icon' in navOpt:
-                genNav[navName]['icon'] = navOpt['icon']
+                if 'icon' in navOpt:
+                    genNav[navName]['icon'] = navOpt['icon']
 
-            path = navOpt['url']
-            if path.endswith('/'):
-                path = path[:-1]
+                path = navOpt['url']
+                if path.endswith('/'):
+                    path = path[:-1]
 
-            if currentPath == path:
-                genNav[navName]['selected'] = True
+                if currentPath == path:
+                    genNav[navName]['selected'] = True
 
     try:
         template = _hplookup.get_template(templatename)

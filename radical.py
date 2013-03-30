@@ -20,24 +20,46 @@ import cherrypy
 
 from radical.handlers.RootHandler import RootHandler
 from radical.handlers import ErrorHandlers
-
 from radical import scheduler
 
 if __name__ == '__main__':
 
-    conf = {
+    baseDir = os.path.dirname(os.path.realpath(__file__))
+
+    conf = {'/':{
+                'tools.mako.collection_size':500,
+                'tools.mako.directories': os.path.join(baseDir, 'data', 'interface', 'default'),
+                'tools.db.on': True,
+            },
             '/interface':{
                 'tools.staticdir.on': True,
-                'tools.staticdir.dir': os.path.join(os.path.dirname(os.path.realpath(__file__)), 'data', 'interface')
+                'tools.staticdir.dir': os.path.join(baseDir, 'data', 'interface')
             },
             '/bootstrap':{
                 'tools.staticdir.on': True,
-                'tools.staticdir.dir': os.path.join(os.path.dirname(os.path.realpath(__file__)), 'data', 'bootstrap')
+                'tools.staticdir.dir': os.path.join(baseDir, 'data', 'bootstrap')
             },
         }
+
+
+    # Template engine tool
+    from radical.template import MakoLoader
+    main = MakoLoader()
+    cherrypy.tools.mako = cherrypy.Tool('on_start_resource', main)
+    
+    # Database access tool
+    from radical.lib.tool.db import SATool
+    cherrypy.tools.db = SATool()
+
+    # Database connection management plugin
+    from radical.lib.plugin.db import SAEnginePlugin
+    cherrypy.engine.db = SAEnginePlugin(cherrypy.engine)
+    cherrypy.engine.db.subscribe()
 
     cherrypy.config.update({'error_page.404': ErrorHandlers.error_page_404, 'error_page.401': ErrorHandlers.error_page_401})
     
     scheduler.start_scheduler()
 
-    cherrypy.quickstart(RootHandler(), '/', config=conf)
+    cherrypy.tree.mount(RootHandler(), '/', conf)
+    cherrypy.engine.start()
+    cherrypy.engine.block()

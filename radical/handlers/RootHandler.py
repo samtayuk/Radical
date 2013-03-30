@@ -45,7 +45,7 @@ class RootHandler:
     
     _cp_config = {
         'tools.sessions.on': True,
-        'tools.auth.on': True
+        'tools.auth.on': True,
     }
     
     auth = AuthController()
@@ -57,5 +57,6 @@ class RootHandler:
     
     @cherrypy.expose
     @require()
+    @cherrypy.tools.mako(filename="index.html")
     def index(self):
-        return serve_template(templatename="index.html", title="Radical")
+        return {'title': 'Radical'}

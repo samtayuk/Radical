@@ -20,20 +20,20 @@ import cherrypy
 
 from radical.helpers.template import serve_template
 
-from Member import Member
+from radical.database.Member import Member
 
 SESSION_KEY = '_cp_username'
 
 def get_current_member():
     email = cherrypy.session.get(SESSION_KEY)
 
-    m = Member().get_member_by_email(email)
+    m = cherrypy.request.db.query(Member).filter(Member.email == email).first()
     return m
 
 def check_credentials(username, password):
     """Verifies credentials for username and password.
     Returns None on success or a string describing the error on failure"""
-    m = Member().get_member_by_email(username)
+    m = cherrypy.request.db.query(Member).filter(Member.email == username).first()
     if not m == None:
         if m.check_password(password):
             return None
@@ -80,7 +80,7 @@ def require(*conditions):
 
 def member_of(groupname):
     def check():
-        m = Member().get_member_by_email(cherrypy.request.login)
+        m = cherrypy.request.db.query(Member).filter(Member.email == cherrypy.request.login).first()
         # replace with actual check if <username> is in <groupname>
         return m.type == groupname
     return check

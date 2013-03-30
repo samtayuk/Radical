@@ -24,49 +24,55 @@
         </thead>
         <tbody>
             % for box in boxes:
+            <%
+                box.stats = box.get_last_stats()
+                box.stats.set_percent()
+            %>
+
+
                 <tr
-                % if box.status == 'offline':
+                % if box.stats.status == 'offline':
                     class="error"
                 % endif
                 >
-                    <td>${box.bid}</td>
+                    <td>${box.id}</td>
                     <td>${box.name}</td>
                     <td>${box.ip}</td>
-                    % if box.status == 'online':
+                    % if box.stats.status == 'online':
                     <td><span class="label label-success">Online</span></td>
-                    % elif box.status == 'pending':
+                    % elif box.stats.status == 'pending':
                     <td><span class="label label-warning">Pending</span></td>
                     % else:
                     <td><span class="label label-important">Offline</span></td>
                     % endif
-                    <td>${box.os}</td>
+                    <td>${box.stats.os}</td>
                     <td><span class="badge
-                    % if box.loadAvg <= (box.cpuNumberCore - 0.30) or box.cpuNumberCore == 0:
+                    % if box.stats.loadAvg <= (box.stats.cpuNumberCore - 0.30) or box.stats.cpuNumberCore == 0:
                         badge-success
-                    % elif box.loadAvg <= box.cpuNumberCore:
+                    % elif box.stats.loadAvg <= box.stats.cpuNumberCore:
                         badge-warning
                     % else:
                         badge-important
                     % endif
-                    ">${"%0.2f" % box.loadAvg}</span></td>
+                    ">${"%0.2f" % box.stats.loadAvg}</span></td>
                     <td><span class="badge
-                    % if box.percentMemory < 65:
+                    % if box.stats.percentMemory < 65:
                         badge-success
-                    % elif box.percentMemory < 85:
+                    % elif box.stats.percentMemory < 85:
                         badge-warning
                     % else:
                         badge-important
                     % endif
-                    ">${int(box.percentMemory)}&#37;</span></td>
+                    ">${int(box.stats.percentMemory)}&#37;</span></td>
                     <td><span class="badge
-                    % if box.percentDisk < 65:
+                    % if box.stats.percentDisk < 65:
                         badge-success
-                    % elif box.percentDisk < 85:
+                    % elif box.stats.percentDisk < 85:
                         badge-warning
                     % else:
                         badge-important
                     % endif
-                    ">${int(box.percentDisk)}&#37;</span></td>
+                    ">${int(box.stats.percentDisk)}&#37;</span></td>
 
                     <td>
                         <div class="btn-group">
