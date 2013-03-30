@@ -22,7 +22,6 @@ from libs.apscheduler.scheduler import Scheduler
 
 from radical.database import Box
 from radical.helpers.SshConnector import SshConnector
-from radical.BoxFactory import BoxFactory
 
 def get_box_status(session, box):
     

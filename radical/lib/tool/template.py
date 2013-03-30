@@ -1,5 +1,21 @@
-from urlparse import urlparse
+# -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
+# This file is part of LizardPanel
+### BEGIN LICENSE
+# Copyright (C) 2013 Samuel Taylor <samtaylor.uk@gmail.com>
+# This program is free software: you can redistribute it and/or modify it 
+# under the terms of the GNU General Public License version 3, as published 
+# by the Free Software Foundation.
+# 
+# This program is distributed in the hope that it will be useful, but 
+# WITHOUT ANY WARRANTY; without even the implied warranties of 
+# MERCHANTABILITY, SATISFACTORY QUALITY, or FITNESS FOR A PARTICULAR 
+# PURPOSE.  See the GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License along 
+# with this program.  If not, see <http://www.gnu.org/licenses/>.
+### END LICENSE
 
+from urlparse import urlparse
 import cherrypy
 from mako.lookup import TemplateLookup
 
@@ -72,5 +88,7 @@ class MakoLoader(object):
         cherrypy.request.template = t = lookup.get_template(filename)
         cherrypy.request.handler = MakoHandler(t, cherrypy.request.handler)
 
-main = MakoLoader()
-cherrypy.tools.mako = cherrypy.Tool('on_start_resource', main)
+def makoSetup():
+    main = MakoLoader()
+    
+    

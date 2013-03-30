@@ -18,10 +18,8 @@
 import cherrypy
 
 from radical.auth import AuthController, require, member_of, name_is
-from radical import template
-
 from radical.database.Member import Member
-from radical.MemberFactory import MemberFactory
+from radical import template
 
 class MemberManagerHandler:
     
@@ -111,8 +109,6 @@ class MemberManagerHandler:
                         'error':"Error: Password Comfirm doesn't match the password.", 
                         'member':m
                         }
-
-            
 
             m.firstName = first_name
             m.lastName = last_name

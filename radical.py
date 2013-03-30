@@ -15,8 +15,12 @@
 # You should have received a copy of the GNU General Public License along 
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 ### END LICENSE
+import sys
 import os
 import cherrypy
+
+baseDir = os.path.dirname(os.path.realpath(__file__))
+sys.path.append(os.path.join(baseDir, 'libs'))
 
 from radical.handlers.RootHandler import RootHandler
 from radical.handlers import ErrorHandlers
@@ -24,9 +28,7 @@ from radical import scheduler
 
 if __name__ == '__main__':
 
-    baseDir = os.path.dirname(os.path.realpath(__file__))
-
-    conf = {'/':{
+    conf = {'global':{
                 'tools.mako.collection_size':500,
                 'tools.mako.directories': os.path.join(baseDir, 'data', 'interface', 'default'),
                 'tools.db.on': True,
@@ -43,9 +45,6 @@ if __name__ == '__main__':
 
 
     # Template engine tool
-    from radical.template import MakoLoader
-    main = MakoLoader()
-    cherrypy.tools.mako = cherrypy.Tool('on_start_resource', main)
     
     # Database access tool
     from radical.lib.tool.db import SATool

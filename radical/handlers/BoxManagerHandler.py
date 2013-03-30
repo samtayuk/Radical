@@ -17,11 +17,12 @@
 
 import cherrypy
 
-from radical.auth import AuthController, require, member_of, name_is
+from radical.auth import require, member_of
 from radical import template
 
-from radical.BoxFactory import BoxFactory
 from radical.database import Box
+from radical.lib.tool.template import makoSetup
+makoSetup()
 
 class BoxManagerHandler:
     
