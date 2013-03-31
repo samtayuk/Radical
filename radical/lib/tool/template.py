@@ -88,7 +88,6 @@ class MakoLoader(object):
         cherrypy.request.template = t = lookup.get_template(filename)
         cherrypy.request.handler = MakoHandler(t, cherrypy.request.handler)
 
-def makoSetup():
-    main = MakoLoader()
-    
+cherrypy.tools.mako = cherrypy.Tool('on_start_resource', MakoLoader())
+
     

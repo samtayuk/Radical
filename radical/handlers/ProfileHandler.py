@@ -18,7 +18,7 @@
 import cherrypy
 
 from radical.auth import AuthController, require, member_of, name_is
-from radical.helpers.template import serve_template
+from radical.lib.tool import template
 
 class ProfileHandler:
     
@@ -30,5 +30,6 @@ class ProfileHandler:
     }
     
     @cherrypy.expose
+    @cherrypy.tools.mako(filename="profile.html")
     def index(self):
-        return serve_template(templatename="profile.html", title="Radical")
+        return {'title':"Radical"}

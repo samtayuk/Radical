@@ -18,11 +18,9 @@
 import cherrypy
 
 from radical.auth import require, member_of
-from radical import template
 
 from radical.database import Box
-from radical.lib.tool.template import makoSetup
-makoSetup()
+from radical.lib.tool import template
 
 class BoxManagerHandler:
     

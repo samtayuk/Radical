@@ -18,7 +18,7 @@
 import cherrypy
 
 from radical.auth import AuthController, require, member_of, name_is
-from radical.helpers.template import serve_template
+from radical.lib.tool import template
 
 class GroupManagerHandler:
     
@@ -30,5 +30,6 @@ class GroupManagerHandler:
     }
     
     @cherrypy.expose
+    @cherrypy.tools.mako(filename="group.html")
     def index(self):
-        return serve_template(templatename="group.html", title="Radical")
+        return {'title':"Radical"}

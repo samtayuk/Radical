@@ -19,7 +19,7 @@ import cherrypy
 
 from radical.auth import AuthController, require, member_of, name_is
 from radical.database.Member import Member
-from radical import template
+from radical.lib.tool import template
 
 class MemberManagerHandler:
     

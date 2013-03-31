@@ -28,7 +28,7 @@ from GroupManagerHandler import GroupManagerHandler
 
 from radical.database.Member import Member
 
-from radical import template
+from radical.lib.tool import template
 
 class RootHandler:
     
