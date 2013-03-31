@@ -80,7 +80,6 @@ def get_boxes_status():
 
 scheduler = None
 def start_scheduler():
-    get_boxes_status()
     scheduler = Scheduler()
     scheduler.add_interval_job(get_boxes_status, seconds=30)
     scheduler.start()

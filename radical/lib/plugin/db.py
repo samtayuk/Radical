@@ -67,7 +67,8 @@ class SAEnginePlugin(plugins.SimplePlugin):
     def create_all(self):
         self.bus.log('Creating database')
         from radical.database.Member import Member
-        from radical.database import *
+        from radical.database.Box import Box
+        from radical.database.BoxStats import BoxStats
         #from lib.model.user import User
         #from lib.model.mention import Mention
         Base.metadata.create_all(self.sa_engine)

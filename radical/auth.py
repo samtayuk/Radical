@@ -129,6 +129,8 @@ class AuthController(object):
     @cherrypy.expose
     def login(self, username=None, password=None, from_page="/"):
         if username is None or password is None:
+            if cherrypy.request.db.query(Member).first() == None:
+                raise cherrypy.HTTPRedirect("/wizard")
             return self.get_loginform("", from_page=from_page)
         
         error_msg = check_credentials(username, password)

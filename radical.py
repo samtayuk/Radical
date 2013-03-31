@@ -28,7 +28,7 @@ from radical import scheduler
 
 if __name__ == '__main__':
 
-    conf = {'global':{
+    conf = {'/':{
                 'tools.mako.collection_size':500,
                 'tools.mako.directories': os.path.join(baseDir, 'data', 'interface', 'default'),
                 'tools.db.on': True,

@@ -26,6 +26,8 @@ from ProfileHandler import ProfileHandler
 from BoxManagerHandler import BoxManagerHandler
 from GroupManagerHandler import GroupManagerHandler
 
+from radical.database.Member import Member
+
 from radical import template
 
 class RootHandler:
@@ -46,3 +48,21 @@ class RootHandler:
     @cherrypy.tools.mako(filename="index.html")
     def index(self):
         return {'title': 'Radical'}
+
+    @cherrypy.expose
+    @cherrypy.tools.mako(filename="wizard.html")
+    def wizard(self, firstName=None, lastName=None, email=None, password=None, passwordConfirm=None):
+        if firstName == None or lastName == None or email == None or password == None or passwordConfirm == None:
+            return {}
+
+        if not password == passwordConfirm:
+            return {'msg':"Error: The passwords do not match."}
+
+        db = cherrypy.request.db
+        m = Member(email, password, firstName, lastName, True, "admin", "")
+
+        db.add(m)
+        db.commit()
+
+        raise cherrypy.HTTPRedirect("/")
+
