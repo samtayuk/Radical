@@ -36,9 +36,6 @@ def get_box_status(session, box):
                 return False
         else:
             break
-            
-
-
 
     commands = {'os':"lsb_release -ds", 
                 'kernel':"uname -sri", 
