@@ -60,7 +60,7 @@ def get_box_status(session, box):
     for key, command in commands.iteritems():
         stdin, stdout, stderr = ssh.exec_command(command)
         data = stdout.readline()
-        results[key] = data
+        results[key] = data.strip("\n")
 
     ssh.close()
 

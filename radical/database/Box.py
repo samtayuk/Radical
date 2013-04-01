@@ -56,11 +56,3 @@ class Box(Base):
         if session == None:
             session = cherrypy.request.db
         return session.query(BoxStats).filter(BoxStats.boxId == self.id).order_by(BoxStats.timestamp.desc()).first()
-
-
-class Group(Base):
-    __tablename__ = "groups"
-
-    id = Column(Integer, primary_key=True)
-    name = Column(String)
-    ownerId = Column(Integer, ForeignKey('members.id'))

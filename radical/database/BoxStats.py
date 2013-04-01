@@ -64,19 +64,28 @@ class BoxStats(Base):
         self.cpuNumberCore = cpuNumberCore
         self.hostname = hostname
 
-        self.freeSwap = float(totalSwap) - float(usedSwap)
+        self.freeSwap = None
+        self.freeMemory = None
+        self.freeDisk = None
 
         self.percentMemory = None
         self.percentDisk = None
         self.percentSwap = None
         self.humanUsedMemory = None
         self.humanTotalMemory = None
+        self.humanFreeMemory = None
         self.humanUsedSwap = None
         self.humanTotalSwap = None
+        self.humanFreeSwap = None
         self.humanUsedDisk = None
         self.humanTotalDisk = None
+        self.humanFreeDosk = None
 
     def set_percent(self):
+
+        self.freeSwap = float(self.totalSwap) - float(self.usedSwap)
+        self.freeMemory = float(self.totalMemory) - float(self.usedMemory)
+        self.freeDisk = float(self.totalDisk) - float(self.usedDisk)
 
         try:
             self.percentMemory = 100*float(self.usedMemory)/float(self.totalMemory)
@@ -85,6 +94,7 @@ class BoxStats(Base):
 
         self.humanUsedMemory = humanize_bytes(float(self.usedMemory), 1)
         self.humanTotalMemory = humanize_bytes(float(self.totalMemory), 1)
+        self.humanFreeMemory = humanize_bytes(float(self.freeMemory), 1)
 
         try:
             self.percentSwap = 100*float(self.usedSwap)/float(self.totalSwap)
@@ -93,6 +103,7 @@ class BoxStats(Base):
 
         self.humanUsedSwap = humanize_bytes(float(self.usedSwap), 1)
         self.humanTotalSwap = humanize_bytes(float(self.totalSwap), 1)
+        self.humanFreeSwap = humanize_bytes(float(self.freeSwap), 1)
 
         try:
             self.percentDisk = 100*float(self.usedDisk)/float(self.totalDisk)
@@ -101,5 +112,4 @@ class BoxStats(Base):
 
         self.humanUsedDisk = humanize_bytes(float(self.usedDisk))
         self.humanTotalDisk = humanize_bytes(float(self.totalDisk))
-
-        self.freeSwap = float(self.totalSwap) - float(self.usedSwap)
+        self.humanFreeDisk = humanize_bytes(float(self.freeDisk))

@@ -24,7 +24,7 @@
     <h1>Box Profile: ${box.name}</h1>
     <hr>
     <div class="row-fluid">
-      <div class="span4">
+      <div class="span5">
         <div class="well">
         <h3>Box Information</h3>
         <table class="table table-bordered">
@@ -65,7 +65,7 @@
         </table>
       </div>
       </div>
-      <div class="span8">
+      <div class="span7">
         <div class="well">
           <h3>Notes</h3>
 
@@ -95,7 +95,7 @@
       </div>
     </div>
     <div class="row-fluid">
-      <div class="span4">
+      <div class="span5">
         <div class="well">
         <h3>Box Monitoring</h3>
         <table class="table table-bordered">
@@ -121,7 +121,7 @@
               <div class="progress progress-info">
                 <div class="bar" style="width: ${box.stats.percentMemory}%"></div>
               </div>
-              ${box.stats.humanUsedMemory} Used, ${box.stats.humanTotalMemory} Total
+              ${box.stats.humanUsedMemory} Used, ${box.stats.humanTotalMemory} Total, ${box.stats.humanFreeMemory} Free
               </td>
           </tr>
           <th>Swap Usage</th>
@@ -129,7 +129,7 @@
               <div class="progress progress-info">
                 <div class="bar" style="width: ${box.stats.percentSwap}%"></div>
               </div>
-              ${box.stats.humanUsedSwap} Used, ${box.stats.humanTotalSwap} Total, ${box.stats.freeSwap} Free
+              ${box.stats.humanUsedSwap} Used, ${box.stats.humanTotalSwap} Total, ${box.stats.humanFreeSwap} Free
               </td>
           </tr>
           <th>Disk Usage</th>
@@ -137,7 +137,7 @@
               <div class="progress progress-info">
                 <div class="bar" style="width: ${box.stats.percentDisk}%"></div>
               </div>
-              ${box.stats.humanUsedDisk} Used, ${box.stats.humanTotalDisk} Total
+              ${box.stats.humanUsedDisk} Used, ${box.stats.humanTotalDisk} Total, ${box.stats.humanFreeDisk} Free
               </td>
           </tr>
           <tr>
