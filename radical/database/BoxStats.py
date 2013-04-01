@@ -38,12 +38,15 @@ class BoxStats(Base):
     loadAvg = Column(Float)
     usedMemory = Column(BIGINT)
     totalMemory = Column(BIGINT)
+    usedSwap = Column(BIGINT)
+    totalSwap = Column(BIGINT)
     usedDisk = Column(BIGINT)
     totalDisk = Column(BIGINT)
     cpuModel = Column(String)
     cpuNumberCore = Column(Integer)
+    hostname = Column(String)
 
-    def __init__(self, boxId, status, os, kernel, uptime, loadAvg, usedMemory, totalMemory, usedDisk, totalDisk, cpuModel, cpuNumberCore, timestamp=datetime.now()):
+    def __init__(self, boxId, status, os, kernel, uptime, loadAvg, usedMemory, totalMemory, usedSwap, totalSwap, usedDisk, totalDisk, cpuModel, cpuNumberCore, hostname, timestamp=datetime.now()):
         self.boxId = boxId
         self.timestamp = timestamp
         self.status = status
@@ -53,15 +56,23 @@ class BoxStats(Base):
         self.loadAvg = loadAvg
         self.usedMemory = usedMemory
         self.totalMemory = totalMemory
+        self.usedSwap= usedSwap
+        self.totalSwap = totalSwap
         self.usedDisk = usedDisk
         self.totalDisk = totalDisk
         self.cpuModel = cpuModel
         self.cpuNumberCore = cpuNumberCore
+        self.hostname = hostname
+
+        self.freeSwap = float(totalSwap) - float(usedSwap)
 
         self.percentMemory = None
         self.percentDisk = None
+        self.percentSwap = None
         self.humanUsedMemory = None
         self.humanTotalMemory = None
+        self.humanUsedSwap = None
+        self.humanTotalSwap = None
         self.humanUsedDisk = None
         self.humanTotalDisk = None
 
@@ -72,13 +83,23 @@ class BoxStats(Base):
         except:
             self.percentMemory = 0
 
-        self.humanUsedMemory = humanize_bytes(int(self.usedMemory))
-        self.humanTotalMemory = humanize_bytes(int(self.totalMemory))
+        self.humanUsedMemory = humanize_bytes(float(self.usedMemory), 1)
+        self.humanTotalMemory = humanize_bytes(float(self.totalMemory), 1)
+
+        try:
+            self.percentSwap = 100*float(self.usedSwap)/float(self.totalSwap)
+        except:
+            self.percentSwap = 0
+
+        self.humanUsedSwap = humanize_bytes(float(self.usedSwap), 1)
+        self.humanTotalSwap = humanize_bytes(float(self.totalSwap), 1)
 
         try:
             self.percentDisk = 100*float(self.usedDisk)/float(self.totalDisk)
         except:
             self.percentDisk = 0
 
-        self.humanUsedDisk = humanize_bytes(int(self.usedMemory))
-        self.humanTotalDisk = humanize_bytes(int(self.totalMemory))
+        self.humanUsedDisk = humanize_bytes(float(self.usedDisk))
+        self.humanTotalDisk = humanize_bytes(float(self.totalDisk))
+
+        self.freeSwap = float(self.totalSwap) - float(self.usedSwap)

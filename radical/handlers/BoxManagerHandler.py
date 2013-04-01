@@ -44,8 +44,65 @@ class BoxManagerHandler:
             return {'title':"Radical", 'pageTitle':"Add Box"}
         else:
             b = Box(name, ip, ssh_user, ssh_password, ssh_port, notes)
-
             cherrypy.request.db.add(b)
             cherrypy.request.db.commit()
 
+            b.add_new_stats(cherrypy.request.db, 'pending')
+            cherrypy.request.db.commit()
+
             raise cherrypy.HTTPRedirect("/box")
+
+    @cherrypy.expose
+    @cherrypy.tools.mako(filename="editbox.html")
+    def edit(self, id=None, name=None, ip=None, ssh_user=None, ssh_password=None, ssh_port=None, notes=None):
+        box = cherrypy.request.db.query(Box).filter(Box.id==id).first()
+        if box == None:
+            raise cherrypy.HTTPRedirect("/box")
+
+        if not name == None and not ip == None and not ssh_user == None and not ssh_port == None and not notes == None:
+            box.name = name
+            box.ip = ip
+            box.sshUser = ssh_user
+            box.sshPort = ssh_port
+            box.notes = notes
+
+            if not ssh_password == None and not ssh_password == '':
+                box.sshPassword = ssh_password 
+
+            raise cherrypy.HTTPRedirect("/box")
+
+        return {'title':"Radical", 
+                'pageTitle':"Edit Box: %s" % box.name,
+                'name': box.name,
+                'ip': box.ip,
+                'sshUser': box.sshUser,
+                'sshPort': box.sshPort,
+                'notes': box.notes,
+                'edit': True
+                }
+
+
+    @cherrypy.expose
+    @cherrypy.tools.mako(filename="boxprofile.html")
+    def profile(self, id=None):
+        box = cherrypy.request.db.query(Box).filter(Box.id==id).first()
+        if box == None:
+            raise cherrypy.HTTPRedirect("/box")
+        return {'title': 'Radical', 'box': box}
+
+    @cherrypy.expose
+    def delete(self, id, comfirm=None):
+        m = cherrypy.request.db.query(Box).filter(Box.id==id).first()
+        if comfirm == 'True':
+            cherrypy.request.db.delete(m)
+            cherrypy.request.db.commit()
+        raise cherrypy.HTTPRedirect("/box")
+
+    @cherrypy.expose
+    def save_notes(self, id, notes):
+        box = cherrypy.request.db.query(Box).filter(Box.id==id).first()
+        box.notes = notes
+
+        cherrypy.request.db.commit()
+
+

@@ -16,16 +16,16 @@
             <!-- Text input-->
             <label>Name</label>
             <input id="name" name="name" type="text" placeholder="Name" class="span3" 
-            % if firstName:
-            value="${firstName}"
+            % if name:
+            value="${name}"
             % endif 
             required="">
 
             <!-- Text input-->
             <label>IP Address</label>
             <input id="ip" name="ip" type="text" placeholder="IP Address" class="span3" 
-            % if lastName:
-            value="${lastName}"
+            % if ip:
+            value="${ip}"
             % endif
             required="">
 
@@ -33,8 +33,8 @@
             <!-- Text input-->
             <label>SSH User</label>
             <input id="ssh_user" name="ssh_user" type="text" placeholder="SSH User" class="span3" 
-            % if email:
-            value="${email}"
+            % if sshUser:
+            value="${sshUser}"
             % endif
             required="">
 
@@ -50,8 +50,10 @@
              <!-- Text input-->
             <label>SSH Port</label>
             <input id="ssh_port" name="ssh_port" type="text" placeholder="SSH Port" class="span3" 
-            % if email:
-            value="${email}"
+            % if sshPort:
+            value="${sshPort}"
+            % else:
+            value="22"
             % endif
             required="">
 

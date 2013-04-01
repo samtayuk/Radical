@@ -1,0 +1,154 @@
+## -*- coding: utf-8 -*-
+<%inherit file="base.html"/>
+
+<%def name="body()">
+  <%
+    box.stats = box.get_last_stats()
+    box.stats.set_percent()
+  %>
+
+  <script>
+    function saveNotes() {
+      $("#saveNotesButton").html('<i class="icon-spinner icon-spin"></i> Saving...');
+      $("#saveNotesButton").attr('disabled','disabled');
+      $.ajax({type:'POST', url: '/box/save_notes/${box.id}', data:$('#formNotes').serialize(), success: function(response) {
+          $("#saveNotesButton").html('<i class="icon-save"></i> Save');
+          $("#saveNotesButton").removeAttr('disabled');
+          $("#notesSaved").show(300).delay(5000).hide(300);
+        }});
+
+      return false;
+    }
+  </script>
+
+    <h1>Box Profile: ${box.name}</h1>
+    <hr>
+    <div class="row-fluid">
+      <div class="span4">
+        <div class="well">
+        <h3>Box Information</h3>
+        <table class="table table-bordered">
+          <tr>
+            <th>Name</th>
+            <td>${box.name}</td>
+          </tr>
+          <tr>
+            <th>IP</th>
+            <td>${box.ip}</td>
+          </tr>
+          <tr>
+            <th>Hostname</th>
+            <td>${box.stats.hostname}</td>
+          </tr>
+          <tr>
+            <th>Status</th>
+            % if box.stats.status == 'online':
+            <td><span class="label label-success">Online</span></td>
+            % elif box.stats.status == 'pending':
+            <td><span class="label label-warning">Pending</span></td>
+            % else:
+            <td><span class="label label-important">Offline</span></td>
+            % endif
+          </tr>
+          <tr>
+            <th>Operating System</th>
+            <td>${box.stats.os}</td>
+          </tr>
+          <tr>
+            <th>Kernel</th>
+            <td>${box.stats.kernel}</td>
+          </tr>
+          <tr>
+            <th>CPU information</th>
+            <td>${box.stats.cpuModel}, ${box.stats.cpuNumberCore} Cores</td>
+          </tr>
+        </table>
+      </div>
+      </div>
+      <div class="span8">
+        <div class="well">
+          <h3>Notes</h3>
+
+          <div id="notesSaved" class="alert alert-success hide" data-alert="alert">
+            <p><i class="icon-lightbulb"></i> <strong>Notes Saved!</strong></p>
+          </div>
+
+
+          <form id="formNotes" onsubmit="return saveNotes();">
+            <fieldset>
+
+            <textarea name="notes" class="input-xlarge span12" rows="11">${box.notes}</textarea>
+
+
+              <!-- Button -->
+              <div class="control-group">
+                <label class="control-label"></label>
+                <div class="controls">
+                  <button type="submit" id="saveNotesButton" name="" class="btn btn-block btn-primary"><i class="icon-save"></i> Save</button>
+                </div>
+              </div>
+
+            </fieldset>
+          </form>
+
+        </div>
+      </div>
+    </div>
+    <div class="row-fluid">
+      <div class="span4">
+        <div class="well">
+        <h3>Box Monitoring</h3>
+        <table class="table table-bordered">
+          <tr>
+            <th>Uptime</th>
+            <td>${box.stats.uptime}</td>
+          </tr>
+          <tr>
+            <th>Load Average</th>
+            <td><span class="badge
+              % if box.stats.loadAvg <= (box.stats.cpuNumberCore - 0.30) or box.stats.cpuNumberCore == 0:
+                  badge-success
+              % elif box.stats.loadAvg <= box.stats.cpuNumberCore:
+                  badge-warning
+              % else:
+                  badge-important
+              % endif
+              ">${"%0.2f" % box.stats.loadAvg}</span></td>
+          </tr>
+          <tr>
+          <th>Memory Usage</th>
+            <td>
+              <div class="progress progress-info">
+                <div class="bar" style="width: ${box.stats.percentMemory}%"></div>
+              </div>
+              ${box.stats.humanUsedMemory} Used, ${box.stats.humanTotalMemory} Total
+              </td>
+          </tr>
+          <th>Swap Usage</th>
+            <td>
+              <div class="progress progress-info">
+                <div class="bar" style="width: ${box.stats.percentSwap}%"></div>
+              </div>
+              ${box.stats.humanUsedSwap} Used, ${box.stats.humanTotalSwap} Total, ${box.stats.freeSwap} Free
+              </td>
+          </tr>
+          <th>Disk Usage</th>
+            <td>
+              <div class="progress progress-info">
+                <div class="bar" style="width: ${box.stats.percentDisk}%"></div>
+              </div>
+              ${box.stats.humanUsedDisk} Used, ${box.stats.humanTotalDisk} Total
+              </td>
+          </tr>
+          <tr>
+            <th>Last Updated</th>
+            <td>${box.stats.timestamp.strftime('%d-%m-%Y %H:%m')}</td>
+          </tr>
+
+        </table>
+      </div>
+      </div>
+    </div>
+
+
+</%def>

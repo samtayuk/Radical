@@ -48,8 +48,8 @@ class Box(Base):
         self.notes = notes
         self.stats = None
 
-    def add_new_stats(self, session, status, os='', kernel='', uptime='', loadAvg=0.00, usedMemory=0, totalMemory=0, usedDisk=0, totalDisk=0, cpuModel='', cpuNumberCore=0):
-        bs = BoxStats(self.id, status, os, kernel, uptime, loadAvg, usedMemory, totalMemory, usedDisk, totalDisk, cpuModel, cpuNumberCore)
+    def add_new_stats(self, session, status, os='', kernel='', uptime='', loadAvg=0.00, usedMemory=0, totalMemory=0, usedSwap=0, totalSwap=0, usedDisk=0, totalDisk=0, cpuModel='', cpuNumberCore=0, hostname=''):
+        bs = BoxStats(self.id, status, os, kernel, uptime, loadAvg, usedMemory, totalMemory, usedSwap, totalSwap, usedDisk, totalDisk, cpuModel, cpuNumberCore, hostname)
         session.add(bs)
 
     def get_last_stats(self, session=None):

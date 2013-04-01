@@ -53,7 +53,7 @@ $(document).ready(function(){
                     </td>
                     <td>
                         <div class="btn-group">
-                          <a href="/member/edit?mid=${member.id}" class="btn btn-primary"><i class="icon-edit"></i></a>
+                          <a href="/member/edit/${member.id}" class="btn btn-primary"><i class="icon-edit"></i></a>
                           <a href="#comfirmDeleteMember" role="button" class="memberDelete btn btn-danger" data-member="${member.firstName} ${member.lastName} (${member.email})"  data-mid="${member.id}" data-toggle="modal"><i class="icon-trash"></i></a>
                         </div>
                     </td>
@@ -62,8 +62,6 @@ $(document).ready(function(){
         </tbody>
         </table>
     </div>
-
-    <!-- Button to trigger modal -->
  
 <!-- Modal -->
 <div id="comfirmDeleteMember" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

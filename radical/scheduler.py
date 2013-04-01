@@ -46,10 +46,13 @@ def get_box_status(session, box):
                 'loadAvg':"cut -f3 -d' ' /proc/loadavg",
                 'usedMemory':"free -b | grep Mem | awk '{print $3}'",
                 'totalMemory':"free -b | grep Mem | awk '{print $2}'",
-                'usedDisk':"df / | grep / | awk '{print $3}'",
-                'totalDisk':"df / | grep / | awk '{print $4}'",
+                'usedSwap':"free -b | grep Swap | awk '{print $3}'",
+                'totalSwap':"free -b | grep Swap | awk '{print $2}'",
+                'usedDisk':"df -l --total | grep total | awk '{print $3}'",
+                'avaDisk':"df -l --total | grep total | awk '{print $4}'",
                 'cpuModel':"cat /proc/cpuinfo | grep 'model name' | sed -e 's/.*: //' | uniq",
-                'cpuNumberCore':"cat /proc/cpuinfo | grep 'cpu core' | sed -e 's/.*: //' | uniq"
+                'cpuNumberCore':"cat /proc/cpuinfo | grep 'cpu core' | sed -e 's/.*: //' | uniq",
+                'hostname': "hostname -A",
                 }
 
     results = {}
@@ -61,7 +64,11 @@ def get_box_status(session, box):
 
     ssh.close()
 
-    box.add_new_stats(session, 'online' ,results['os'], results['kernel'], results['uptime'], results['loadAvg'], results['usedMemory'], results['totalMemory'], results['usedDisk'], results['totalDisk'], results['cpuModel'], results['cpuNumberCore'])
+    results['usedDisk'] = float(results['usedDisk']) * 1024
+    results['avaDisk'] = float(results['avaDisk']) * 1024
+    results['totalDisk'] =  results['usedDisk'] +  results['avaDisk']
+
+    box.add_new_stats(session, 'online' ,results['os'], results['kernel'], results['uptime'], results['loadAvg'], results['usedMemory'], results['totalMemory'], results['usedSwap'], results['totalSwap'], results['usedDisk'], results['totalDisk'], results['cpuModel'], results['cpuNumberCore'], results['hostname'])
     return True
 
 def get_boxes_status():
