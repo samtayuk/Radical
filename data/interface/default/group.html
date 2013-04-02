@@ -4,5 +4,35 @@
 <%def name="body()">
     <h1>Groups</h1>
     <hr>
+    <ul class="nav nav-pills">
+      <li><a class="btn-info" href="/group/add">Create New Group</a></li>
+    </ul>
+    <div class="well">
+	    <table class="table zebra-striped table-hover">
+	        <thead>
+	            <tr>
+	                <th>ID</th>
+	                <th>Group Name</th>
+	                <th>Group Owner</th>
+	                <th></th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	            % for group in groups:
+	                <tr>
+	                    <td>${group.id}</td>
+	                    <td>${group.name}</td>
+	                    <td>${group.ownerId}</td>
+	                    <td>
+	                        <div class="btn-group">
+	                          <a href="/member/edit/${group.id}" class="btn btn-primary"><i class="icon-edit"></i></a>
+	                          <a href="#comfirmDeleteMember" role="button" class="memberDelete btn btn-danger" data-toggle="modal"><i class="icon-trash"></i></a>
+	                        </div>
+	                    </td>
+	                </tr>
+	            % endfor
+	        </tbody>
+	    </table>
+    </div>
     
 </%def>

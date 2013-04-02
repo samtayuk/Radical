@@ -20,6 +20,8 @@ import cherrypy
 from radical.auth import AuthController, require, member_of, name_is
 from radical.lib.tool import template
 
+from radical.database import Group
+
 class GroupManagerHandler:
     
     # all methods in this controller (and subcontrollers) is
@@ -29,7 +31,21 @@ class GroupManagerHandler:
         'auth.require': [member_of('admin')]
     }
     
+    
     @cherrypy.expose
     @cherrypy.tools.mako(filename="group.html")
     def index(self):
-        return {'title':"Radical"}
+    	groups = cherrypy.request.db.query(Group).all()
+
+        return {'title':"Radical", 'groups':groups}
+
+    @cherrypy.expose
+    @cherrypy.tools.mako(filename="editgroup.html")
+    def add(self, groupName=None, groupDescription=None):
+    	if not groupName == None:
+    		g = Group(groupName, 1)
+    		cherrypy.request.db.add(g)
+    		cherrypy.request.db.commit()
+    		raise cherrypy.HTTPRedirect("/group")
+
+    	return {'title':"Radical", 'pageTitle': "Create Group"}

@@ -29,3 +29,7 @@ class Group(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String)
     ownerId = Column(Integer, ForeignKey('members.id'))
+
+    def __init__(self, name, ownerId):
+    	self.name = name
+    	self.ownerId = ownerId

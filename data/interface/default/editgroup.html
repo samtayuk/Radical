@@ -1,0 +1,44 @@
+## -*- coding: utf-8 -*-
+<%inherit file="base.html"/>
+
+<%def name="body()">
+    <h1>${pageTitle}</h1>
+    <hr>
+    % if error:
+            <div class="alert alert-block alert-error fade in">
+                  <button type="button" class="close" data-dismiss="alert">&times;</button>
+                  <p>${error}</p>
+            </div>
+    % endif
+    <form class="form-horizontal">
+      <fieldset>
+
+        <!-- Text input-->
+        <div class="control-group">
+          <label class="control-label">Group Name</label>
+          <div class="controls">
+            <input id="groupName" name="groupName" type="text" placeholder="Group Name" class="input-xlarge" required="">
+            <p class="help-block"></p>
+          </div>
+        </div>
+
+        <!-- Textarea -->
+        <div class="control-group">
+          <label class="control-label">Group Description</label>
+          <div class="controls">                     
+            <textarea id="groupDescription" name="groupDescription"></textarea>
+          </div>
+        </div>
+
+        <!-- Button -->
+        <div class="control-group">
+          <label class="control-label"></label>
+          <div class="controls">
+            <button id="" name="" class="btn btn-success">Save</button>
+          </div>
+        </div>
+
+      </fieldset>
+    </form>
+
+</%def>
