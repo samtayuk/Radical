@@ -42,7 +42,7 @@ class MemberManagerHandler:
     @cherrypy.tools.mako(filename="edituser.html")
     def add(self, first_name=None, last_name=None, email=None, password=None, password_comfirm=None, active=None, notes=None, m_type=None):
         if first_name == None and last_name == None and email == None and password == None and password_comfirm == None:
-            return serve_template(templatename="edituser.html", title="Radical - Create New Member", pageTitle="Create New Member", postUrl="/member/add")
+            return {'pageTitle':"Create New Member", 'postUrl':"/member/add"}
         else:
             if active == 'on':
                 active = True

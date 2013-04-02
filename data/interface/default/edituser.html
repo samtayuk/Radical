@@ -1,61 +1,103 @@
 ## -*- coding: utf-8 -*-
-<%inherit file="base.html"/>
 
-<%def name="body()">
-    <h1>${pageTitle}</h1>
-    <hr>
-    % if error:
-            <div class="alert alert-block alert-error fade in">
-                  <button type="button" class="close" data-dismiss="alert">&times;</button>
-                  <p>${error}</p>
-            </div>
-    % endif
-  <form class="span9" method="post" action="${postUrl}">
-    <div class=" well span9 row">
+<script type="text/javascript">
+    $(document).ready(function() {
+      $("#member").validate({
+        rules: {
+          password: { 
+                required: true, minlength: 5
+          }, 
+          c_password: { 
+                required: true, equalTo: "#password", minlength: 5
+          }, 
+        email: {
+          required: true, email: true
+          },
+        phone: {
+          required: true, number: true, minlength: 7
+          },
+        url: {
+          url: true
+        },
+        description: {
+          required: true
+        },
+        gender: {
+             required: true
+          }
+        },
+        messages: {
+         description: "Please enter a short description.",
+         gender: "Please select yor gender."
+
+        }
+      });
+    });
+     -->
+  </script>
+
+
+
+<form id="member"  method="post" action="${postUrl}" style="margin: 0px">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">${pageTitle}</h3>
+  </div>
+  <div class="modal-body">
+      
+    <div class="span8 row">
         <div class="span3">
             <!-- Text input-->
+            <div class="control-group">
             <label>First Name</label>
             <input id="first_name" name="first_name" type="text" placeholder="First Name" class="span3" 
             % if firstName:
             value="${firstName}"
             % endif 
             required="">
+            </div>
 
             <!-- Text input-->
+            <div class="control-group">
             <label>Last Name</label>
             <input id="last_name" name="last_name" type="text" placeholder="Last Name" class="span3" 
             % if lastName:
             value="${lastName}"
             % endif
             required="">
+            </div>
 
 
             <!-- Text input-->
+            <div class="control-group">
             <label>Email</label>
             <input id="email" name="email" type="text" placeholder="Email Address" class="span3" 
             % if email:
             value="${email}"
             % endif
-            required="">
+            required="email">
+            </div>
 
 
             <!-- Password input-->
+            <div class="control-group">
             <label>Password</label>
-            <input id="password" name="password" type="password" placeholder="Password" class="span3" 
-            % if not edit:
-            required=""
-            % endif
-            >
-
+            <input id="password" name="password" type="password" placeholder="Password" class="span3">
+            </div>
+            
             <!-- Password input-->
+            <div class="control-group">
             <label>Password Comfirm</label>
-            <input id="password_comfirm" name="password_comfirm" type="password" placeholder="Password Comfirm" class="span3" 
-            % if not edit:
-            required=""
-            % endif
-            >
+            <input id="password_comfirm" name="password_comfirm" type="password" placeholder="Password Comfirm" class="span3" >
+            </div>
+  
 
-            <!-- Select Basic -->
+            
+        </div>
+        <!-- Textarea -->
+        <div class="span4">
+          <!-- Select Basic -->
+            <div class="control-group">
               <label>Type</label>
                 <select id="m_type" name="m_type" class="span3">
                   <option 
@@ -73,38 +115,22 @@
                   Administrator
                   </option>
                 </select>
-  
-
-            <label>Status</label>
+              </div>
+          <label>Status</label>
             <div class="switch" data-on-label="Active" data-on="success" data-off="danger">
-                <input name="active" type="checkbox" 
-                % if not active == False:
-                checked
-                % endif
-                >
+                <input name="active" type="checkbox" checked>
             </div>
 
-        </div>
-        % if member:
-            <img src="${member.get_gravatar_url(120)}" alt="me" class="pull-right img-rounded">
-        % endif
-        <!-- Textarea -->
-        <div class="span5">
+
           <label>Notes</label>
-          <textarea  name="notes" id="notes" class="input-xlarge span5" rows="11">
-% if notes:
-${notes}
-% endif
-</textarea>
+          <textarea  name="notes" id="notes" class="input-xlarge span4" rows="11"></textarea>
 
         </div>
         <div class="clearfix"></div>
-        <hr>
-        <div class="controls pull-right">
-        <a href="/member"class="btn">Cancel</a>
-        <button class="btn btn-primary" type="submit">Save</button>
-        </div>
     </div>
-</form>
-
-</%def>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+    <button href="#" id="deleteMemberButton" class="btn btn-primary"><i class="icon-save"></i> Save</button>
+  </div>
+  </form>
