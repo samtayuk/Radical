@@ -41,7 +41,7 @@ def get_box_status(session, box):
                 'kernel':"uname -sri", 
                 'uptime':"uptime | awk 'BEGIN { FS=\" |, \" } { print $2 }'",
                 'loadAvg':"cut -f3 -d' ' /proc/loadavg",
-                'usedMemory':"free -b | grep Mem | awk '{print $3}'",
+                'usedMemory':"free -b | grep 'buffers/cache' | awk '{print $3}'",
                 'totalMemory':"free -b | grep Mem | awk '{print $2}'",
                 'usedSwap':"free -b | grep Swap | awk '{print $3}'",
                 'totalSwap':"free -b | grep Swap | awk '{print $2}'",
