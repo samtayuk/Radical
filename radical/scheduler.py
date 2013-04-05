@@ -18,7 +18,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from libs.apscheduler.scheduler import Scheduler
+from apscheduler.scheduler import Scheduler
 
 from radical.database import Box
 from radical.helpers.SshConnector import SshConnector
