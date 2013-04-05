@@ -26,6 +26,8 @@ from ProfileHandler import ProfileHandler
 from BoxManagerHandler import BoxManagerHandler
 from GroupManagerHandler import GroupManagerHandler
 
+from radical.handlers import Settings
+
 from radical.database.Member import Member
 
 from radical.lib.tool import template
@@ -42,6 +44,7 @@ class RootHandler:
     box = BoxManagerHandler()
     profile = ProfileHandler()
     group = GroupManagerHandler()
+    settings = Settings()
     
     @cherrypy.expose
     @require()

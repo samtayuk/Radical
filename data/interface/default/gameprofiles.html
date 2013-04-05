@@ -1,0 +1,32 @@
+## -*- coding: utf-8 -*-
+<%inherit file="base.html"/>
+
+<%def name="body()">
+    <h1>${pageTitle}</h1>
+    <hr>
+    % if error:
+            <div class="alert alert-block alert-error fade in">
+                  <button type="button" class="close" data-dismiss="alert">&times;</button>
+                  <p>${error}</p>
+            </div>
+    % endif
+    <ul class="nav nav-pills">
+      <li><a class="btn-info" href="/settings/gameprofiles/import">Import Game Profiles</a></li>
+    </ul>
+    <div class="well">
+      <table class="table">
+      <tr>
+        <th>Game Name</th>
+        <th>Game Key</th>
+        <th>Game Profile Version</th>
+      </tr>
+      % for gameProfile in gameProfiles:
+      <tr>
+        <td>${gameProfile.name}</td>
+        <td>${gameProfile.key}</td>
+        <td>${gameProfile.version}</td>
+      </tr>
+      %endfor
+      </table>
+    </div>
+</%def>

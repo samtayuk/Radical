@@ -25,3 +25,4 @@ from radical.database.Box import *
 from radical.database.BoxStats import *
 from radical.database.Member import *
 from radical.database.Group import *
+from radical.database.GameProfile import *

@@ -32,8 +32,6 @@ def serve_template(templatename, **kwargs):
 
     interface_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', '..', 'data', 'interface')
     template_dir = os.path.join(str(interface_dir), 'default')
-    
-    print template_dir
 
     _hplookup = TemplateLookup(directories=[template_dir])
 

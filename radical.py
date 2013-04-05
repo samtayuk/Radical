@@ -24,22 +24,22 @@ sys.path.append(os.path.join(baseDir, 'libs'))
 
 from radical.handlers.RootHandler import RootHandler
 from radical.handlers import ErrorHandlers
-from radical import scheduler
+from radical import scheduler, DATA_DIR
 
 if __name__ == '__main__':
 
     conf = {'/':{
                 'tools.mako.collection_size':500,
-                'tools.mako.directories': os.path.join(baseDir, 'data', 'interface', 'default'),
+                'tools.mako.directories': os.path.join(DATA_DIR, 'interface', 'default'),
                 'tools.db.on': True,
             },
             '/interface':{
                 'tools.staticdir.on': True,
-                'tools.staticdir.dir': os.path.join(baseDir, 'data', 'interface')
+                'tools.staticdir.dir': os.path.join(DATA_DIR, 'interface')
             },
             '/bootstrap':{
                 'tools.staticdir.on': True,
-                'tools.staticdir.dir': os.path.join(baseDir, 'data', 'bootstrap')
+                'tools.staticdir.dir': os.path.join(DATA_DIR, 'bootstrap')
             },
         }
 

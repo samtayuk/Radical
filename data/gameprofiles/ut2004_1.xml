@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<gameprofile key="ut2004" version="1">
+    <name>Unreal Tournament 2004</name>
+    <maxslots>32</maxslots>
+    <command>System/ucc-bin %map%%type%?MaxPlayers=%slots%%mutators% -multihome=%ip% -port=%port% -log=./ut2004.log -nohomedir</command>
+    <mapdirectory>Maps</mapdirectory>
+    <options>
+        <option id="type" name="Game Type" type="dropdown" required="true" key="?game=">
+            <value name="Assault">UT2k4Assault.ASGameInfo</value>
+            <value name="Capture The Flag">XGame.xCTFGame</value>
+            <value name="Bombing Run">XGame.xBombingRun</value>
+            <value name="Double Domination">xGame.xDoubleDom</value>
+            <value name="Death Match">XGame.xDeathMatch</value>
+            <value name="Invasion">SkaarjPack.Invasion</value>
+            <value name="Last Man Standing">BonusPack.xLastManStandingGame</value>
+            <value name="Mutant">BonusPack.xMutantGame</value>
+            <value name="Onslaught">Onslaught.ONSOnslaughtGame</value>
+            <value name="Team Death Match">XGame.xTeamGame</value>
+            <value name="Vehicle CTF">XGame.xVehicleCTFGame</value>
+        </option>
+        <option id="mutators" name="Mutators" type="select multiple other" required="false" key="?mutator=" separator=",">
+            <value name="Bonus Combos">BonusPack.MutCrateCombo</value>
+            <value name="BigWheels">Onslaught.MutBigWheels</value>
+            <value name="Lightweight Vehicles">Onslaught.MutLightweightVehicles</value>
+            <value name="Onslaught Weapons">Onslaught.MutOnslaughtWeapons</value>
+            <value name="Stunt Vehicles">Onslaught.MutWheeledVehicleStunts</value>
+            <value name="Vehicle Arena">OnslaughtFull.MutVehicleArena</value>
+            <value name="UT Classic">UTClassic.MutUTClassic</value>
+            <value name="Lightning Guns">UTClassic.MutUseLightning</value>
+            <value name="Sniper Rifles">UTClassic.MutUseSniper</value>
+            <value name="UTV2004S">UTV2004s.utvMutator</value>
+            <value name="Super Berserk">UnrealGame.MutBerserk</value>
+            <value name="BigHead">UnrealGame.MutBigHead</value>
+            <value name="Game Speed">UnrealGame.MutGameSpeed</value>
+            <value name="LowGrav">UnrealGame.MutLowGrav</value>
+            <value name="Air Control">UnrealGame.MutMovementModifier</value>
+            <value name="UT2003 Style">XGame.MutFastWeapSwitch</value>
+            <value name="InstaGib">XGame.MutInstaGib</value>
+            <value name="No Adrenaline">XGame.MutNoAdrenaline</value>
+            <value name="QuadJump">XGame.MutQuadJump</value>
+            <value name="Regeneration">XGame.MutRegen</value>
+            <value name="Slow Motion Corpses">XGame.MutSlomoDeath</value>
+            <value name="Species Statistics">XGame.MutSpeciesStats</value>
+            <value name="UDamage Reward">XGame.MutUDamageReward</value>
+            <value name="Vampire">XGame.MutVampire</value>
+            <value name="Zoom InstaGib">XGame.MutZoomInstagib</value>
+            <value name="Arena">XWeapons.MutArena</value>
+            <value name="No SuperWeapon">XWeapons.MutNoSuperWeapon</value>
+            <value name="Onslaught Bonus Vehicles">OnslaughtBP.MutBonusVehicles</value>
+        </option>
+        <option id="lanplay" name="LAN Play" type="checkbox" required="false">
+            <value name="LAN Play">+lanplay</value>
+        </option>
+    </options>
+    <installer type="download unzip">
+        <url version="3339">http://downloads.unrealadmin.org/UT2004/Server/dedicatedserver3339-bonuspack.zip</url>
+    </installer>
+</gameprofile>
+

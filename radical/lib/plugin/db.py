@@ -70,8 +70,7 @@ class SAEnginePlugin(plugins.SimplePlugin):
         from radical.database.Box import Box
         from radical.database.BoxStats import BoxStats
         from radical.database.Group import Group
-        #from lib.model.user import User
-        #from lib.model.mention import Mention
+        from radical.database import GameProfile
         Base.metadata.create_all(self.sa_engine)
         
     def destroy_all(self):
